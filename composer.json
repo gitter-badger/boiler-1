@@ -1,0 +1,31 @@
+{
+    "name": "yakuzan/boiler",
+    "license": "MIT",
+    "description": "boilerplate package for rapid laravel development.",
+    "authors": [
+        {
+            "name": "yoeunes",
+            "email": "younes.khoubza@gmail.com"
+        },
+        {
+            "name": "imanebahiaoui",
+            "email": "bahiaoui.imane@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Yakuzan\\Boiler\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.6.4",
+        "laravelcollective/html": "^5.4",
+        "yajra/laravel-datatables-oracle": "^7.3",
+        "illuminate/routing": "^5.4",
+        "illuminate/support": "^5.4",
+        "dingo/api": "1.0.x@dev"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.3"
+    }
+}
