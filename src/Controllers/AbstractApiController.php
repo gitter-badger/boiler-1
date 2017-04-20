@@ -2,8 +2,8 @@
 
 namespace Yakuzan\Boiler\Controllers;
 
-use Yakuzan\Boiler\Traits\WebControllerTrait;
 use Yakuzan\Boiler\Traits\ResponseTrait;
+use Yakuzan\Boiler\Traits\WebControllerTrait;
 
 abstract class AbstractApiController extends AbstractController
 {

@@ -30,7 +30,7 @@ trait ResponseTrait
             'error' => [
                 'message'     => $message,
                 'status_code' => $this->statusCode,
-            ]
+            ],
         ]);
     }
 
@@ -45,19 +45,18 @@ trait ResponseTrait
             'response' => [
                 'message'     => $message,
                 'status_code' => $this->statusCode,
-            ]
+            ],
         ]);
     }
 
     /**
      * @param LengthAwarePaginator $paginator
-     * @param array $data
+     * @param array                $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function respondWithPagination(LengthAwarePaginator $paginator, array $data = [])
     {
-
         $data = array_merge($data, [
             'paginator' => [
                 'total_count'  => $paginator->total(),

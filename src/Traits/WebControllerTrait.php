@@ -3,7 +3,6 @@
 namespace Yakuzan\Boiler\Traits;
 
 use Illuminate\Http\Response;
-use function view;
 
 trait WebControllerTrait
 {
@@ -26,8 +25,8 @@ trait WebControllerTrait
 
     /**
      * @param string|null $view
-     * @param array $data
-     * @param array $mergeData
+     * @param array       $data
+     * @param array       $mergeData
      *
      * @return \Illuminate\Contracts\View\Factory|Response|\Illuminate\View\View
      */
@@ -42,8 +41,6 @@ trait WebControllerTrait
         if (view()->exists($folder.'.'.$view)) {
             return view($folder.'.'.$view, $data, $mergeData);
         }
-
-        return null;
     }
 
     public function setView($view)
