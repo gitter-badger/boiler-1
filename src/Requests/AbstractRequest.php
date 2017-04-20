@@ -10,7 +10,8 @@ class AbstractRequest extends FormRequest
     /**
      * Get the proper failed validation response for the request.
      *
-     * @param  array  $errors
+     * @param array $errors
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function response(array $errors)
@@ -18,9 +19,9 @@ class AbstractRequest extends FormRequest
         if ($this->expectsJson()) {
             return new JsonResponse([
                 'error' => [
-                    'errors'     => $errors,
+                    'errors'      => $errors,
                     'status_code' => 422,
-                ]
+                ],
             ], 422);
         }
 
