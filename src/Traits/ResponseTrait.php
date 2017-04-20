@@ -30,7 +30,8 @@ trait ResponseTrait
             'error' => [
                 'message'     => $message,
                 'status_code' => $this->statusCode,
-            ],
+                'status_text' => Response::$statusTexts[$this->statusCode] ?? '',
+            ]
         ]);
     }
 
@@ -45,7 +46,8 @@ trait ResponseTrait
             'response' => [
                 'message'     => $message,
                 'status_code' => $this->statusCode,
-            ],
+                'status_text' => Response::$statusTexts[$this->statusCode] ?? '',
+            ]
         ]);
     }
 
