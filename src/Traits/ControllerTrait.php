@@ -18,10 +18,8 @@ trait ControllerTrait
         }
 
         if (is_string($this->service) && class_exists($this->service)) {
-            return new $this->service;
+            return new $this->service();
         }
-
-        return null;
     }
 
     public function setService($service)
@@ -36,10 +34,8 @@ trait ControllerTrait
         }
 
         if (is_string($this->entity) && class_exists($this->entity)) {
-            return new $this->entity;
+            return new $this->entity();
         }
-
-        return null;
     }
 
     public function setEntity($entity)

@@ -28,7 +28,7 @@ interface ControllerInterface
 
     /**
      * @param Request $request
-     * @param int $id
+     * @param int     $id
      */
     public function update(Request $request, int $id);
 
