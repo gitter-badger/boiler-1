@@ -26,7 +26,7 @@ abstract class AbstractEntity extends Model
      */
     public function access_rules(Request $request): array
     {
-        return $this->access_rules;
+        return $this->access_rules ?? [];
     }
 
     /**

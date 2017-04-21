@@ -60,4 +60,16 @@ class AbstractApiControllerTest extends TestCase
         $this->assertEquals(404, $result->getStatusCode());
         $this->assertEquals('Not Found', $result->getData(true)['error']['message']);
     }
+
+    /** @test */
+    public function it_create_a_new_record_in_lessons_table()
+    {
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->store($request);
+        $this->assertEquals(201, $result->getStatusCode());
+        $this->assertArrayHasKey('id', $result->getData(true)['response']['data']);
+    }
 }

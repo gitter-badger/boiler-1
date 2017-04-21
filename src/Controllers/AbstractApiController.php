@@ -5,6 +5,7 @@ namespace Yakuzan\Boiler\Controllers;
 use Illuminate\Http\Request;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Serializer\JsonApiSerializer;
+use Yakuzan\Boiler\Entities\AbstractEntity;
 use Yakuzan\Boiler\Traits\ResponseTrait;
 use Yakuzan\Boiler\Traits\TransformerTrait;
 
@@ -56,5 +57,22 @@ abstract class AbstractApiController extends AbstractController
         $data = fractal($entity, $this->transformer())->toArray();
 
         return $this->respond($data);
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, $this->service()->entity()->access_rules($request));
+
+        $attributes = $request->only($this->service()->entity()->access_attributes());
+
+        $entity = $this->service()->create($attributes);
+
+        if ($entity instanceof AbstractEntity) {
+            $data = fractal($entity, $this->transformer())->toArray();
+
+            return $this->created(null, $data['data']);
+        }
+
+        return $this->invalidRequest();
     }
 }

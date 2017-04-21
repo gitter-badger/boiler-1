@@ -23,32 +23,42 @@ trait ResponseTrait
 
     /**
      * @param string $message
+     * @param null   $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function respondWithError($message = null)
+    public function respondWithError($message = null, $data = null)
     {
-        return $this->respond([
-            'error' => [
-                'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
-                'status_code' => $this->statusCode,
-            ],
-        ]);
+        $error = [
+            'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
+            'status_code' => $this->statusCode,
+        ];
+
+        if (null !== $data) {
+            $response['data'] = $data;
+        }
+
+        return $this->respond(['error' => $error]);
     }
 
     /**
      * @param string $message
+     * @param null   $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function respondWithMessage($message = null)
+    public function respondWithMessage($message = null, $data = null)
     {
-        return $this->respond([
-            'response' => [
-                'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
-                'status_code' => $this->statusCode,
-            ],
-        ]);
+        $response = [
+            'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
+            'status_code' => $this->statusCode,
+        ];
+
+        if (null !== $data) {
+            $response['data'] = $data;
+        }
+
+        return $this->respond(['response' => $response]);
     }
 
     /**
@@ -101,9 +111,9 @@ trait ResponseTrait
         return $this->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)->respondWithError($message);
     }
 
-    public function created($message = null)
+    public function created($message = null, $data = null)
     {
-        return $this->setStatusCode(Response::HTTP_CREATED)->respondWithMessage($message);
+        return $this->setStatusCode(Response::HTTP_CREATED)->respondWithMessage($message, $data);
     }
 
     public function accepted($message = null)
