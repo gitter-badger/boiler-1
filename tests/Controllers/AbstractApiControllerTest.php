@@ -51,4 +51,13 @@ class AbstractApiControllerTest extends TestCase
         $this->assertEquals(200, $result->getStatusCode());
         $this->assertEquals($lesson->id, $result->getData(true)['data']['id']);
     }
+
+    /** @test */
+    public function it_return_response_not_found_when_lesson_not_found()
+    {
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->show(9);
+        $this->assertEquals(404, $result->getStatusCode());
+        $this->assertEquals('Not Found', $result->getData(true)['error']['message']);
+    }
 }
