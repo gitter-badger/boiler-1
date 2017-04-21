@@ -58,5 +58,4 @@ class AbstractEntityTest extends TestCase
         $this->lesson->access_attributes(['id', 'title', 'created_at', 'updated_at']);
         $this->assertEquals(['id', 'title', 'created_at', 'updated_at'], $this->lesson->modify_attributes());
     }
-
 }

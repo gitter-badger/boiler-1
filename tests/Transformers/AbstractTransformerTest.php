@@ -2,7 +2,6 @@
 
 namespace Yakuzan\Boiler\Tests\Transformers;
 
-use function fractal;
 use Laracasts\TestDummy\Factory;
 use Yakuzan\Boiler\Tests\Stubs\Entities\Lesson;
 use Yakuzan\Boiler\Tests\Stubs\Transformers\LessonTransformer;

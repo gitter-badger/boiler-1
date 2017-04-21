@@ -7,20 +7,21 @@ use Illuminate\Http\Request;
 
 abstract class AbstractEntity extends Model
 {
-    /** @var  array */
+    /** @var array */
     protected $access_rules;
 
-    /** @var  array */
+    /** @var array */
     protected $modify_rules;
 
-    /** @var  array */
+    /** @var array */
     protected $access_attributes;
 
-    /** @var  array */
+    /** @var array */
     protected $modify_attributes;
 
     /**
      * @param Request $request
+     *
      * @return array
      */
     public function access_rules(Request $request): array
@@ -30,6 +31,7 @@ abstract class AbstractEntity extends Model
 
     /**
      * @param array $rules
+     *
      * @return AbstractEntity
      */
     public function set_access_rules(array $rules): AbstractEntity
@@ -41,6 +43,7 @@ abstract class AbstractEntity extends Model
 
     /**
      * @param array $rules
+     *
      * @return AbstractEntity
      */
     public function set_modify_rules(array $rules): AbstractEntity
@@ -52,6 +55,7 @@ abstract class AbstractEntity extends Model
 
     /**
      * @param Request $request
+     *
      * @return array
      */
     public function modify_rules(Request $request): array
@@ -65,6 +69,7 @@ abstract class AbstractEntity extends Model
 
     /**
      * @param array|null $access_attributes
+     *
      * @return array
      */
     public function access_attributes(array $access_attributes = null): array
@@ -82,6 +87,7 @@ abstract class AbstractEntity extends Model
 
     /**
      * @param array|null $modify_attributes
+     *
      * @return array
      */
     public function modify_attributes(array $modify_attributes = null): array
