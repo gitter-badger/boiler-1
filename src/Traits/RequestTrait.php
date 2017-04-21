@@ -21,8 +21,6 @@ trait RequestTrait
         if (is_string($this->request) && class_exists($this->request)) {
             return new $this->request();
         }
-
-        return null;
     }
 
     /**
