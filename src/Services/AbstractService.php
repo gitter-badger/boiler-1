@@ -56,10 +56,10 @@ abstract class AbstractService
     }
 
     /**
-     * @param null $perPage
-     * @param array $columns
+     * @param null   $perPage
+     * @param array  $columns
      * @param string $pageName
-     * @param null $page
+     * @param null   $page
      *
      * @return mixed
      */
