@@ -2,7 +2,6 @@
 
 namespace Yakuzan\Boiler\Controllers;
 
-use function fractal;
 use Illuminate\Http\Request;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Serializer\JsonApiSerializer;
