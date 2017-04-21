@@ -11,7 +11,7 @@ use Yakuzan\Boiler\Tests\TestCase;
 
 class AbstractApiControllerTest extends TestCase
 {
-    /** @var  AbstractApiController $controller */
+    /** @var AbstractApiController $controller */
     protected $controller;
 
     protected function setUp()
@@ -25,7 +25,7 @@ class AbstractApiControllerTest extends TestCase
     public function it_return_pagination_with_api_response()
     {
         $lessons = Factory::times(10)->create(Lesson::class)->all();
-        /** @var \Illuminate\Http\JsonResponse  $result */
+        /** @var \Illuminate\Http\JsonResponse $result */
         $result = $this->controller->index(new Request());
 
         $this->assertEquals(200, $result->getStatusCode());
@@ -35,7 +35,7 @@ class AbstractApiControllerTest extends TestCase
     /** @test */
     public function it_return_response_not_found_when_lessons_table_empty()
     {
-        /** @var \Illuminate\Http\JsonResponse  $result */
+        /** @var \Illuminate\Http\JsonResponse $result */
         $result = $this->controller->index(new Request());
         $this->assertEquals(404, $result->getStatusCode());
         $this->assertEquals('Not Found', $result->getData(true)['error']['message']);
