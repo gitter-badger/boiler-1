@@ -2,6 +2,7 @@
 
 namespace Yakuzan\Boiler\Tests\Services;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Laracasts\TestDummy\Factory;
 use Yakuzan\Boiler\Services\AbstractService;
 use Yakuzan\Boiler\Tests\Stubs\Entities\Lesson;
@@ -85,5 +86,16 @@ class AbstractServiceTest extends TestCase
         $result = $this->service->entity($lesson)->delete();
         $this->assertTrue($result);
         $this->assertNull(Lesson::find($lesson->id));
+    }
+
+    /** @test */
+    public function it_paginate_lessons()
+    {
+        $lessons = Factory::times(10)->create(Lesson::class);
+
+        /** @var LengthAwarePaginator $paginator */
+        $paginator = $this->service->paginate();
+        $this->assertInstanceOf(LengthAwarePaginator::class, $paginator);
+        $this->assertCount($paginator->total(), $lessons);
     }
 }

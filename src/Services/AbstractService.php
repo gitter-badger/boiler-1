@@ -54,4 +54,17 @@ abstract class AbstractService
     {
         return $this->entity()->delete();
     }
+
+    /**
+     * @param null $perPage
+     * @param array $columns
+     * @param string $pageName
+     * @param null $page
+     *
+     * @return mixed
+     */
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        return $this->entity()->paginate($perPage, $columns, $pageName, $page);
+    }
 }

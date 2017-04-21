@@ -10,10 +10,17 @@ trait RequestTrait
     protected $request;
 
     /**
-     * @return null|AbstractRequest
+     * @param null $request
+     *
+     * @return AbstractRequest|$this
      */
-    public function getRequest()
+    public function request($request = null)
     {
+        if (null !== $request) {
+            $this->request = $request;
+
+            return $this;
+        }
         if ($this->request instanceof AbstractRequest) {
             return $this->request;
         }
@@ -21,17 +28,5 @@ trait RequestTrait
         if (is_string($this->request) && class_exists($this->request)) {
             return new $this->request();
         }
-    }
-
-    /**
-     * @param AbstractRequest $request
-     *
-     * @return $this
-     */
-    public function setRequest($request)
-    {
-        $this->request = $request;
-
-        return $this;
     }
 }

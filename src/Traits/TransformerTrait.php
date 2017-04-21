@@ -10,10 +10,18 @@ trait TransformerTrait
     protected $transformer;
 
     /**
-     * @return null|AbstractTransformer
+     * @param null $transformer
+     *
+     * @return $this|AbstractTransformer
      */
-    public function getTransformer()
+    public function getTransformer($transformer = null)
     {
+        if (null !== $transformer) {
+            $this->transformer = $transformer;
+
+            return $this;
+        }
+
         if ($this->transformer instanceof AbstractTransformer) {
             return $this->transformer;
         }
@@ -21,17 +29,5 @@ trait TransformerTrait
         if (is_string($this->transformer) && class_exists($this->transformer)) {
             return new $this->transformer();
         }
-    }
-
-    /**
-     * @param AbstractTransformer $transformer
-     *
-     * @return $this
-     */
-    public function setTransformer($transformer)
-    {
-        $this->transformer = $transformer;
-
-        return $this;
     }
 }

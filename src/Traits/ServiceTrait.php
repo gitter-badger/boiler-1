@@ -10,10 +10,18 @@ trait ServiceTrait
     protected $service;
 
     /**
-     * @return null|AbstractService
+     * @param null $service
+     *
+     * @return $this|AbstractService
      */
-    public function getService()
+    public function service($service = null)
     {
+        if (null !== $service) {
+            $this->service = $service;
+
+            return $this;
+        }
+
         if ($this->service instanceof AbstractService) {
             return $this->service;
         }
@@ -21,17 +29,5 @@ trait ServiceTrait
         if (is_string($this->service) && class_exists($this->service)) {
             return new $this->service();
         }
-    }
-
-    /**
-     * @param AbstractService $service
-     *
-     * @return $this
-     */
-    public function setService($service)
-    {
-        $this->service = $service;
-
-        return $this;
     }
 }

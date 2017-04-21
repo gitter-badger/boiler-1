@@ -4,24 +4,10 @@ namespace Yakuzan\Boiler\Traits;
 
 use Illuminate\Http\Response;
 
-trait WebControllerTrait
+trait ViewTrait
 {
-    use ControllerTrait;
-
-    protected $dataTable = null;
-
     /** @var Response */
-    protected $view = null;
-
-    public function getDataTable()
-    {
-        return $this->dataTable;
-    }
-
-    public function setDataTable($dataTable)
-    {
-        $this->dataTable = $dataTable;
-    }
+    protected $view;
 
     /**
      * @param string|null $view

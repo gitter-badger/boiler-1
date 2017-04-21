@@ -9,6 +9,11 @@ trait EntityTrait
     /** @var AbstractEntity */
     protected $entity;
 
+    /**
+     * @param null $entity
+     *
+     * @return AbstractEntity|$this
+     */
     public function entity($entity = null)
     {
         if (null !== $entity) {
