@@ -10,22 +10,23 @@ trait EntityTrait
     protected $entity;
 
     /**
-     * @return AbstractEntity
+     * @param null|AbstractEntity|string $entity
+     * @return null|AbstractEntity
      */
-    public function getEntity(): AbstractEntity
+    public function entity($entity = null)
     {
-        return $this->entity;
-    }
+        if (null !== $entity) {
+            $this->entity = $entity;
+        }
 
-    /**
-     * @param AbstractEntity $entity
-     *
-     * @return $this
-     */
-    public function setEntity(AbstractEntity $entity)
-    {
-        $this->entity = $entity;
+        if ($this->entity instanceof AbstractEntity) {
+            return $this->entity;
+        }
 
-        return $this;
+        if (is_string($this->entity) && class_exists($this->entity)) {
+            return new $this->entity();
+        }
+
+        return null;
     }
 }

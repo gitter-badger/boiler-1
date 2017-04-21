@@ -8,8 +8,11 @@ abstract class AbstractService
 {
     use EntityTrait;
 
+    /**
+     * @return array
+     */
     public function all()
     {
-        $this->entity->get();
+        return $this->entity()->get();
     }
 }
