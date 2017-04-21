@@ -27,16 +27,29 @@ abstract class AbstractService
         return $this->entity()->find($id);
     }
 
+    /**
+     * @param array $attributes
+     *
+     * @return mixed
+     */
     public function create(array $attributes = [])
     {
         return $this->entity()->create($attributes);
     }
 
+    /**
+     * @param array $values
+     *
+     * @return bool
+     */
     public function update(array $values)
     {
         return $this->entity()->update($values);
     }
 
+    /**
+     * @return bool|null
+     */
     public function delete()
     {
         return $this->entity()->delete();
