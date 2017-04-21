@@ -15,7 +15,6 @@ class BoilerServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'../vendor/yajra/laravel-datatables-oracle/src/config/datatables.php' => config_path('datatables.php'),
-            __DIR__.'../vendor/dingo/api/config/api.php'                                  => config_path('api.php'),
         ]);
     }
 

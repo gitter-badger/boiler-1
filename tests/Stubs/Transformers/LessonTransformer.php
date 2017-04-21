@@ -15,7 +15,7 @@ class LessonTransformer extends AbstractTransformer
     public function transform(Lesson $lesson)
     {
         return [
-            'id'      => $lesson->id,
+            'id'      => (int) $lesson->id,
             'titre'   => $lesson->title,
             'matiere' => $lesson->subject,
         ];
