@@ -75,4 +75,27 @@ abstract class AbstractApiController extends AbstractController
 
         return $this->invalidRequest();
     }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, $this->service()->entity()->modify_rules($request));
+
+        $entity = $this->service()->find($id);
+
+        if (null === $entity) {
+            $this->notFound();
+        }
+
+        $attributes = $request->only($this->service()->entity()->modify_attributes());
+
+        $entity = $this->service()->entity($entity)->update($attributes);
+
+        if ($entity instanceof AbstractEntity) {
+            $data = fractal($entity, $this->transformer())->toArray();
+
+            return $this->created(null, $data['data']);
+        }
+
+        return $this->invalidRequest();
+    }
 }
