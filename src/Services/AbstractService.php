@@ -2,6 +2,14 @@
 
 namespace Yakuzan\Boiler\Services;
 
-class AbstractService implements ServiceInterface
+use Yakuzan\Boiler\Traits\EntityTrait;
+
+abstract class AbstractService
 {
+    use EntityTrait;
+
+    public function all()
+    {
+        $this->entity->get();
+    }
 }

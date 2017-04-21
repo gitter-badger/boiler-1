@@ -7,6 +7,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 trait ResponseTrait
 {
+    protected $data = [];
+
     protected $statusCode = Response::HTTP_OK;
 
     /**
@@ -24,13 +26,12 @@ trait ResponseTrait
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function respondWithError($message = 'Error')
+    public function respondWithError($message = null)
     {
         return $this->respond([
             'error' => [
-                'message'     => $message,
+                'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
                 'status_code' => $this->statusCode,
-                'status_text' => Response::$statusTexts[$this->statusCode] ?? '',
             ],
         ]);
     }
@@ -40,13 +41,12 @@ trait ResponseTrait
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function respondWithMessage($message = 'OK')
+    public function respondWithMessage($message = null)
     {
         return $this->respond([
             'response' => [
-                'message'     => $message,
+                'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
                 'status_code' => $this->statusCode,
-                'status_text' => Response::$statusTexts[$this->statusCode] ?? '',
             ],
         ]);
     }
@@ -76,7 +76,7 @@ trait ResponseTrait
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function notFound($message = 'Not Found!')
+    public function notFound($message = null)
     {
         return $this->setStatusCode(Response::HTTP_NOT_FOUND)->respondWithError($message);
     }
@@ -86,7 +86,7 @@ trait ResponseTrait
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function invalidRequest($message = 'Invalid Request!')
+    public function invalidRequest($message = null)
     {
         return $this->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message);
     }
@@ -96,17 +96,17 @@ trait ResponseTrait
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function internalError($message = 'Internal Error')
+    public function internalError($message = null)
     {
         return $this->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)->respondWithError($message);
     }
 
-    public function created($message = 'Created')
+    public function created($message = null)
     {
         return $this->setStatusCode(Response::HTTP_CREATED)->respondWithMessage($message);
     }
 
-    public function accepted($message = 'Accepted')
+    public function accepted($message = null)
     {
         return $this->setStatusCode(Response::HTTP_ACCEPTED)->respondWithMessage($message);
     }

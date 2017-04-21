@@ -2,6 +2,8 @@
 
 namespace Yakuzan\Boiler\Transformers;
 
-class AbstractTransformer extends \League\Fractal\TransformerAbstract
+use League\Fractal\TransformerAbstract;
+
+abstract class AbstractTransformer extends TransformerAbstract
 {
 }
