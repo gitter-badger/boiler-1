@@ -2,6 +2,7 @@
 
 namespace Yakuzan\Boiler\Controllers;
 
+use function fractal;
 use Illuminate\Http\Request;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Serializer\JsonApiSerializer;
@@ -32,10 +33,28 @@ abstract class AbstractApiController extends AbstractController
             return $this->notFound();
         }
 
-        $data = fractal($collection, $this->getTransformer())
+        $data = fractal($collection, $this->transformer())
             ->serializeWith(new JsonApiSerializer())
             ->paginateWith(new IlluminatePaginatorAdapter($paginator))
             ->toArray();
+
+        return $this->respond($data);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        $entity = $this->service()->find($id);
+
+        if (null === $entity) {
+            return $this->notFound();
+        }
+
+        $data = fractal($entity, $this->transformer())->toArray();
 
         return $this->respond($data);
     }

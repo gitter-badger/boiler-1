@@ -22,7 +22,7 @@ abstract class AbstractService
      *
      * @return AbstractEntity
      */
-    public function find(int $id)
+    public function find($id)
     {
         return $this->entity()->find($id);
     }

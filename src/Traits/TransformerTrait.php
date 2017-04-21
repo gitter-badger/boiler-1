@@ -14,7 +14,7 @@ trait TransformerTrait
      *
      * @return $this|AbstractTransformer
      */
-    public function getTransformer($transformer = null)
+    public function transformer($transformer = null)
     {
         if (null !== $transformer) {
             $this->transformer = $transformer;
