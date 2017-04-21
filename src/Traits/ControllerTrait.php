@@ -9,13 +9,13 @@ use Yakuzan\Boiler\Transformers\AbstractTransformer;
 
 trait ControllerTrait
 {
-    /** @var  AbstractService */
+    /** @var AbstractService */
     protected $service;
 
-    /** @var  AbstractEntity */
+    /** @var AbstractEntity */
     protected $entity;
 
-    /** @var  AbstractTransformer */
+    /** @var AbstractTransformer */
     protected $transformer;
 
     /** @var AbstractRequest */
@@ -33,12 +33,11 @@ trait ControllerTrait
         if (is_string($this->service) && class_exists($this->service)) {
             return new $this->service();
         }
-
-        return null;
     }
 
     /**
      * @param $service
+     *
      * @return $this
      */
     public function setService($service)
@@ -47,7 +46,6 @@ trait ControllerTrait
 
         return $this;
     }
-
 
     /**
      * @return null|AbstractEntity
@@ -61,12 +59,11 @@ trait ControllerTrait
         if (is_string($this->entity) && class_exists($this->entity)) {
             return new $this->entity();
         }
-
-        return null;
     }
 
     /**
      * @param AbstractEntity $entity
+     *
      * @return $this
      */
     public function setEntity($entity)
@@ -88,12 +85,11 @@ trait ControllerTrait
         if (is_string($this->transformer) && class_exists($this->transformer)) {
             return new $this->transformer();
         }
-
-        return null;
     }
 
     /**
      * @param AbstractTransformer $transformer
+     *
      * @return $this
      */
     public function setTransformer($transformer)
@@ -115,12 +111,11 @@ trait ControllerTrait
         if (is_string($this->request) && class_exists($this->request)) {
             return new $this->request();
         }
-
-        return null;
     }
 
     /**
      * @param AbstractRequest $request
+     *
      * @return $this
      */
     public function setRequest($request)

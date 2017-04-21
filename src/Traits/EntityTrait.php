@@ -6,7 +6,7 @@ use Yakuzan\Boiler\Entities\AbstractEntity;
 
 trait EntityTrait
 {
-    /** @var  AbstractEntity */
+    /** @var AbstractEntity */
     protected $entity;
 
     /**
@@ -19,6 +19,7 @@ trait EntityTrait
 
     /**
      * @param AbstractEntity $entity
+     *
      * @return $this
      */
     public function setEntity(AbstractEntity $entity)
