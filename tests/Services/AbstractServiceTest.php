@@ -62,7 +62,7 @@ class AbstractServiceTest extends TestCase
         $result = $this->service->create(['title' => 'fake title', 'subject' => 'fake subject']);
         $this->assertGreaterThanOrEqual(1, $result->id);
 
-        $lesson = Lesson::where('title', 'fake title')->first();
+        $lesson = Lesson::where('title', 'fake title')->where('subject', 'fake subject')->first();
         $this->assertEquals($lesson->id, $result->id);
     }
 }
