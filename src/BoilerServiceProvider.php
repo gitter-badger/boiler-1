@@ -38,7 +38,7 @@ class BoilerServiceProvider extends ServiceProvider
 
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Yajra\Datatables\DatatablesServiceProvider::class);
-//        $this->app->register(\Dingo\Api\Provider\LaravelServiceProvider::class);
+        $this->app->register(\Spatie\Fractal\FractalServiceProvider::class);
     }
 
     private function registerAliases()
@@ -47,6 +47,7 @@ class BoilerServiceProvider extends ServiceProvider
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Form', \Collective\Html\FormFacade::class);
             $loader->alias('Html', \Collective\Html\HtmlFacade::class);
+            $loader->alias('Fractal', \Spatie\Fractal\FractalFacade::class);
         }
     }
 }

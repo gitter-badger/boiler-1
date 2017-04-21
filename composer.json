@@ -14,7 +14,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Yakuzan\\Boiler\\": "src"
+            "Yakuzan\\Boiler\\": "src",
+            "Yakuzan\\Boiler\\Tests\\": "tests"
         }
     },
     "require": {
@@ -23,9 +24,14 @@
         "yajra/laravel-datatables-oracle": "^7.3",
         "illuminate/routing": "^5.4",
         "illuminate/support": "^5.4",
-        "dingo/api": "1.0.x@dev"
+        "spatie/laravel-fractal": "^3.5"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.3"
+        "barryvdh/laravel-ide-helper": "^2.3",
+        "mockery/mockery": "^0.9.9",
+        "fzaninotto/faker": "~1.4",
+        "phpunit/phpunit": "~5.7",
+        "orchestra/testbench": "~3.0",
+        "laracasts/TestDummy": "^2.3"
     }
 }
