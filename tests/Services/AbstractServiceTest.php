@@ -65,4 +65,16 @@ class AbstractServiceTest extends TestCase
         $lesson = Lesson::where('title', 'fake title')->where('subject', 'fake subject')->first();
         $this->assertEquals($lesson->id, $result->id);
     }
+
+    /** @test */
+    public function it_update_existed_lesson()
+    {
+        $lesson = Factory::create(Lesson::class);
+        $result = $this->service->entity($lesson)->update(['title' => 'new title', 'subject' => 'new subject']);
+        $this->assertTrue($result);
+
+        $updated_lesson = Lesson::find($lesson->id);
+        $this->assertEquals('new title', $updated_lesson->title);
+        $this->assertEquals('new subject', $updated_lesson->subject);
+    }
 }

@@ -31,4 +31,9 @@ abstract class AbstractService
     {
         return $this->entity()->create($attributes);
     }
+
+    public function update(array $values)
+    {
+        return $this->entity()->update($values);
+    }
 }

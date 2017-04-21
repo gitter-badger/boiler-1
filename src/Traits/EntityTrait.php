@@ -9,15 +9,12 @@ trait EntityTrait
     /** @var AbstractEntity */
     protected $entity;
 
-    /**
-     * @param null|AbstractEntity|string $entity
-     *
-     * @return null|AbstractEntity
-     */
     public function entity($entity = null)
     {
         if (null !== $entity) {
             $this->entity = $entity;
+
+            return $this;
         }
 
         if ($this->entity instanceof AbstractEntity) {
