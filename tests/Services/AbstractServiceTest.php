@@ -86,5 +86,4 @@ class AbstractServiceTest extends TestCase
         $this->assertTrue($result);
         $this->assertNull(Lesson::find($lesson->id));
     }
-
 }
