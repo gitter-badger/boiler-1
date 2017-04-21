@@ -36,4 +36,9 @@ abstract class AbstractService
     {
         return $this->entity()->update($values);
     }
+
+    public function delete()
+    {
+        return $this->entity()->delete();
+    }
 }

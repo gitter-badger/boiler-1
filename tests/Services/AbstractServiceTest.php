@@ -77,4 +77,14 @@ class AbstractServiceTest extends TestCase
         $this->assertEquals('new title', $updated_lesson->title);
         $this->assertEquals('new subject', $updated_lesson->subject);
     }
+
+    /** @test */
+    public function it_delete_a_lesson()
+    {
+        $lesson = Factory::create(Lesson::class);
+        $result = $this->service->entity($lesson)->delete();
+        $this->assertTrue($result);
+        $this->assertNull(Lesson::find($lesson->id));
+    }
+
 }
