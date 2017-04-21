@@ -55,4 +55,14 @@ class AbstractServiceTest extends TestCase
 
         $this->assertNull($result);
     }
+
+    /** @test */
+    public function it_store_new_lesson()
+    {
+        $result = $this->service->create(['title' => 'fake title', 'subject' => 'fake subject']);
+        $this->assertGreaterThanOrEqual(1, $result->id);
+
+        $lesson = Lesson::where('title', 'fake title')->first();
+        $this->assertEquals($lesson->id, $result->id);
+    }
 }
