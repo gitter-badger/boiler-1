@@ -11,6 +11,7 @@ trait EntityTrait
 
     /**
      * @param null|AbstractEntity|string $entity
+     *
      * @return null|AbstractEntity
      */
     public function entity($entity = null)
@@ -26,7 +27,5 @@ trait EntityTrait
         if (is_string($this->entity) && class_exists($this->entity)) {
             return new $this->entity();
         }
-
-        return null;
     }
 }

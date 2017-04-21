@@ -10,7 +10,7 @@ use Yakuzan\Boiler\Tests\TestCase;
 
 class AbstractServiceTest extends TestCase
 {
-    /** @var  AbstractService $service */
+    /** @var AbstractService $service */
     protected $service;
 
     protected function setUp()
@@ -30,7 +30,7 @@ class AbstractServiceTest extends TestCase
     public function it_return_all_lessons()
     {
         $lessons = Factory::times(10)->create(Lesson::class);
-        $result  = $this->service->all();
+        $result = $this->service->all();
 
         $this->assertEquals(count($lessons), count($result));
     }

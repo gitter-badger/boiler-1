@@ -21,8 +21,6 @@ trait ServiceTrait
         if (is_string($this->service) && class_exists($this->service)) {
             return new $this->service();
         }
-
-        return null;
     }
 
     /**

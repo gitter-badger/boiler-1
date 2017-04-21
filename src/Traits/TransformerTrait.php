@@ -21,8 +21,6 @@ trait TransformerTrait
         if (is_string($this->transformer) && class_exists($this->transformer)) {
             return new $this->transformer();
         }
-
-        return null;
     }
 
     /**
