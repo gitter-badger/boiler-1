@@ -10,8 +10,7 @@ use Yakuzan\Boiler\Traits\TransformerTrait;
 
 abstract class AbstractApiController extends AbstractController
 {
-    use TransformerTrait;
-    use ResponseTrait;
+    use TransformerTrait, ResponseTrait;
 
     /**
      * @param Request $request

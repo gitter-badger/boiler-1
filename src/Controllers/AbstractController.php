@@ -12,8 +12,5 @@ use Yakuzan\Boiler\Traits\ServiceTrait;
 
 abstract class AbstractController extends Controller
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    use ServiceTrait;
-    use EntityTrait;
-    use RequestTrait;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ServiceTrait, EntityTrait, RequestTrait;
 }
