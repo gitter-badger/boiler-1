@@ -15,4 +15,9 @@ abstract class AbstractService
     {
         return $this->entity()->get();
     }
+
+    public function find(int $id)
+    {
+        return $this->entity()->find($id);
+    }
 }

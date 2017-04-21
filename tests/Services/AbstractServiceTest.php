@@ -34,4 +34,25 @@ class AbstractServiceTest extends TestCase
 
         $this->assertEquals(count($lessons), count($result));
     }
+
+    /** @test */
+    public function it_return_lesson_with_id()
+    {
+        $lessons = Factory::times(10)->create(Lesson::class)->all();
+
+        /** @var Lesson $lesson */
+        $lesson = next($lessons);
+
+        $result = $this->service->find($lesson->id);
+        $this->assertEquals($result->id, $lesson->id);
+    }
+
+    /** @test */
+    public function it_return_null_on_not_existed_lesson()
+    {
+        Factory::create(Lesson::class);
+        $result = $this->service->find(9);
+
+        $this->assertNull($result);
+    }
 }
