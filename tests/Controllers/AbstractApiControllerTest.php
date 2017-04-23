@@ -72,4 +72,18 @@ class AbstractApiControllerTest extends TestCase
         $this->assertEquals(201, $result->getStatusCode());
         $this->assertArrayHasKey('id', $result->getData(true)['response']['data']);
     }
+
+    /** @test */
+    public function it_return_validation_errors_when_creating_a_new_record()
+    {
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['subject' => 'new subject']);
+        $request->shouldReceive('expectsJson')->andReturn(true);
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->store($request);
+
+        $this->assertEquals(422, $result->getStatusCode());
+        $this->assertEquals('The given data failed to pass validation.', $result->getData(true)['error']['message']);
+        $this->assertEquals('The title field is required.', $result->getData(true)['error']['data']['title'][0]);
+    }
 }

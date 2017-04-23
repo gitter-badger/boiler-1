@@ -61,7 +61,11 @@ abstract class AbstractApiController extends AbstractController
 
     public function store(Request $request)
     {
-        $this->validate($request, $this->service()->entity()->access_rules($request));
+        $validator = validator($request->all(), $this->service()->entity()->access_rules($request));
+
+        if ($validator->fails()) {
+            return $this->invalidRequest('The given data failed to pass validation.', $validator->getMessageBag()->toArray());
+        }
 
         $attributes = $request->only($this->service()->entity()->access_attributes());
 
@@ -78,7 +82,11 @@ abstract class AbstractApiController extends AbstractController
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, $this->service()->entity()->modify_rules($request));
+        $validator = validator($request->all(), $this->service()->entity()->modify_rules($request));
+
+        if ($validator->fails()) {
+            return $this->invalidRequest('The given data failed to pass validation.', $validator->getMessageBag()->toArray());
+        }
 
         $entity = $this->service()->find($id);
 

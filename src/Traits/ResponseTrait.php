@@ -35,7 +35,7 @@ trait ResponseTrait
         ];
 
         if (null !== $data) {
-            $response['data'] = $data;
+            $error['data'] = $data;
         }
 
         return $this->respond(['error' => $error]);
@@ -93,12 +93,13 @@ trait ResponseTrait
 
     /**
      * @param string $message
+     * @param null $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function invalidRequest($message = null)
+    public function invalidRequest($message = null, $data = null)
     {
-        return $this->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message);
+        return $this->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message, $data);
     }
 
     /**
