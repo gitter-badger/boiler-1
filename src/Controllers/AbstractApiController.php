@@ -96,12 +96,10 @@ abstract class AbstractApiController extends AbstractController
 
         $attributes = $request->only($this->service()->entity()->modify_attributes());
 
-        $entity = $this->service()->entity($entity)->update($attributes);
+        $result = $this->service()->entity($entity)->update($attributes);
 
-        if ($entity instanceof AbstractEntity) {
-            $data = fractal($entity, $this->transformer())->toArray();
-
-            return $this->created(null, $data['data']);
+        if (true === $result) {
+            return $this->accepted();
         }
 
         return $this->invalidRequest();

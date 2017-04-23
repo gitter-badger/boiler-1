@@ -86,4 +86,36 @@ class AbstractApiControllerTest extends TestCase
         $this->assertEquals('The given data failed to pass validation.', $result->getData(true)['error']['message']);
         $this->assertEquals('The title field is required.', $result->getData(true)['error']['data']['title'][0]);
     }
+
+    /** @test */
+    public function it_update_an_existing_lesson_in_database()
+    {
+        $lesson = Factory::create(Lesson::class);
+
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->update($request, $lesson->id);
+        $this->assertEquals(202, $result->getStatusCode());
+        $this->assertEquals('Accepted', $result->getData(true)['response']['message']);
+    }
+
+    /** @test */
+    public function it_return_validation_errors_when_updating_a_lesson()
+    {
+        $lesson = Factory::create(Lesson::class);
+
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['subject' => 'new subject']);
+        $request->shouldReceive('expectsJson')->andReturn(true);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->update($request, $lesson->id);
+
+        $this->assertEquals(422, $result->getStatusCode());
+        $this->assertEquals('The given data failed to pass validation.', $result->getData(true)['error']['message']);
+        $this->assertEquals('The title field is required.', $result->getData(true)['error']['data']['title'][0]);
+    }
 }
