@@ -10,7 +10,7 @@ abstract class AbstractPolicy
     use EntityTrait;
 
     /**
-     * @param User $user
+     * @param User  $user
      * @param array ...$args
      *
      * @return bool
@@ -21,7 +21,7 @@ abstract class AbstractPolicy
     }
 
     /**
-     * @param User $user
+     * @param User  $user
      * @param array ...$args
      *
      * @return bool
@@ -32,7 +32,7 @@ abstract class AbstractPolicy
     }
 
     /**
-     * @param User $user
+     * @param User  $user
      * @param array ...$args
      *
      * @return bool
@@ -43,7 +43,7 @@ abstract class AbstractPolicy
     }
 
     /**
-     * @param User $user
+     * @param User  $user
      * @param array ...$args
      *
      * @return bool
