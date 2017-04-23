@@ -122,7 +122,8 @@ trait ResponseTrait
         return $this->setStatusCode(Response::HTTP_ACCEPTED)->respondWithMessage($message);
     }
 
-    public function noContent($message = null) {
+    public function noContent($message = null)
+    {
         return $this->setStatusCode(Response::HTTP_NO_CONTENT)->respondWithMessage($message);
     }
 
