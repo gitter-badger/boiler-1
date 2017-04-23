@@ -30,4 +30,28 @@ trait EntityTrait
             return new $this->entity();
         }
     }
+
+    /**
+     * @return string
+     */
+    public function entity_name()
+    {
+        if (is_string($this->entity) && class_exists($this->entity)) {
+            return $this->entity;
+        }
+
+        if ($this->entity instanceof AbstractEntity) {
+            return get_class($this->entity);
+        }
+
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function entity_base_name()
+    {
+        return class_basename($this->entity_name());
+    }
 }
