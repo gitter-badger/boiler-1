@@ -93,7 +93,7 @@ trait ResponseTrait
 
     /**
      * @param string $message
-     * @param null $data
+     * @param null   $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
