@@ -21,11 +21,12 @@ trait RequestTrait
 
             return $this;
         }
+
         if ($this->request instanceof AbstractRequest) {
             return $this->request;
         }
 
-        if (is_string($this->request) && class_exists($this->request)) {
+        if (is_a($this->request, AbstractRequest::class, true)) {
             return new $this->request();
         }
     }

@@ -26,7 +26,7 @@ trait EntityTrait
             return $this->entity;
         }
 
-        if (is_string($this->entity) && class_exists($this->entity)) {
+        if (is_a($this->entity, AbstractEntity::class, true)) {
             return new $this->entity();
         }
     }
@@ -36,12 +36,12 @@ trait EntityTrait
      */
     public function entity_name()
     {
-        if (is_string($this->entity) && class_exists($this->entity)) {
-            return $this->entity;
-        }
-
         if ($this->entity instanceof AbstractEntity) {
             return get_class($this->entity);
+        }
+
+        if (is_a($this->entity, AbstractEntity::class, true)) {
+            return $this->entity;
         }
 
         return '';

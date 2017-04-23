@@ -7,6 +7,8 @@ use Laracasts\TestDummy\Factory;
 use Yakuzan\Boiler\Controllers\AbstractApiController;
 use Yakuzan\Boiler\Tests\Stubs\Controllers\LessonApiController;
 use Yakuzan\Boiler\Tests\Stubs\Entities\Lesson;
+use Yakuzan\Boiler\Tests\Stubs\Policies\LessonPolicy;
+use Yakuzan\Boiler\Tests\Stubs\Services\LessonService;
 use Yakuzan\Boiler\Tests\TestCase;
 
 class AbstractApiControllerTest extends TestCase
@@ -14,7 +16,7 @@ class AbstractApiControllerTest extends TestCase
     /** @var AbstractApiController $controller */
     protected $controller;
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
@@ -153,5 +155,161 @@ class AbstractApiControllerTest extends TestCase
 
         $this->assertEquals(404, $result->getStatusCode());
         $this->assertEquals('Not Found', $result->getData(true)['error']['message']);
+    }
+
+    /** @test */
+    public function it_authorize_admin_and_user_to_list_lessons()
+    {
+        Factory::create(Lesson::class);
+
+        $service = new LessonService();
+        $service->policy(LessonPolicy::class);
+
+        auth()->login($this->younes);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->index(new Request());
+
+        $this->assertEquals(200, $result->getStatusCode());
+
+        auth()->login($this->imane);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->index(new Request());
+
+        $this->assertEquals(200, $result->getStatusCode());
+    }
+
+    /** @test */
+    public function it_authorize_admin_and_user_to_show_a_lesson()
+    {
+        $lesson = Factory::create(Lesson::class);
+
+        $service = new LessonService();
+        $service->policy(LessonPolicy::class);
+
+        auth()->login($this->younes);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->show($lesson->id);
+
+        $this->assertEquals(200, $result->getStatusCode());
+
+        auth()->login($this->imane);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->show($lesson->id);
+
+        $this->assertEquals(200, $result->getStatusCode());
+    }
+
+    /** @test */
+    public function it_authorize_admin_to_create_a_new_lesson()
+    {
+        $service = new LessonService();
+        $service->policy(LessonPolicy::class);
+
+        auth()->login($this->younes);
+
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->store($request);
+
+        $this->assertEquals(201, $result->getStatusCode());
+    }
+
+    /** @test */
+    public function it_deny_user_to_create_a_new_lesson()
+    {
+        $service = new LessonService();
+        $service->policy(LessonPolicy::class);
+
+        auth()->login($this->imane);
+
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->store($request);
+
+        $this->assertEquals(401, $result->getStatusCode());
+        $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
+    }
+
+    /** @test */
+    public function it_authorize_admin_to_update_a_lesson()
+    {
+        $service = new LessonService();
+        $service->policy(LessonPolicy::class);
+
+        auth()->login($this->younes);
+
+        $lesson = Factory::create(Lesson::class);
+
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->update($request, $lesson->id);
+        $this->assertEquals(202, $result->getStatusCode());
+    }
+
+    /** @test */
+    public function it_deny_user_to_update_a_lesson()
+    {
+        $service = new LessonService();
+        $service->policy(LessonPolicy::class);
+
+        auth()->login($this->imane);
+
+        $lesson = Factory::create(Lesson::class);
+
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->update($request, $lesson->id);
+
+        $this->assertEquals(401, $result->getStatusCode());
+        $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
+    }
+
+    /** @test */
+    public function it_authorize_admin_to_delete_a_lesson()
+    {
+        $service = new LessonService();
+        $service->policy(LessonPolicy::class);
+
+        auth()->login($this->younes);
+
+        $lesson = Factory::create(Lesson::class);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->destroy($lesson->id);
+
+        $this->assertEquals(204, $result->getStatusCode());
+    }
+
+    /** @test */
+    public function it_deny_user_to_delete_a_lesson()
+    {
+        $service = new LessonService();
+        $service->policy(LessonPolicy::class);
+
+        auth()->login($this->imane);
+
+        $lesson = Factory::create(Lesson::class);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->service($service)->destroy($lesson->id);
+
+        $this->assertEquals(401, $result->getStatusCode());
+        $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
     }
 }

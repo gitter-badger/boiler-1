@@ -2,6 +2,7 @@
 
 namespace Yakuzan\Boiler\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Serializer\JsonApiSerializer;
@@ -20,12 +21,16 @@ abstract class AbstractApiController extends AbstractController
      */
     public function index(Request $request)
     {
-        $paginator = $this->service()->paginate(
-            $request->input('limit', null),
-            $request->input('columns', ['*']),
-            $request->input('pageName', 'page'),
-            $request->input('page', null)
-        );
+        try {
+            $paginator = $this->service()->paginate(
+                $request->input('limit', null),
+                $request->input('columns', ['*']),
+                $request->input('pageName', 'page'),
+                $request->input('page', null)
+            );
+        } catch(AuthorizationException $exception) {
+            return $this->unauthorized();
+        }
 
         $collection = $paginator->getCollection();
 
@@ -48,7 +53,11 @@ abstract class AbstractApiController extends AbstractController
      */
     public function show($id)
     {
-        $entity = $this->service()->find($id);
+        try {
+            $entity = $this->service()->find($id);
+        } catch(AuthorizationException $exception) {
+            return $this->unauthorized();
+        }
 
         if (null === $entity) {
             return $this->notFound();
@@ -69,7 +78,11 @@ abstract class AbstractApiController extends AbstractController
 
         $attributes = $request->only($this->service()->entity()->access_attributes());
 
-        $entity = $this->service()->create($attributes);
+        try {
+            $entity = $this->service()->create($attributes);
+        } catch(AuthorizationException $exception) {
+            return $this->unauthorized();
+        }
 
         if ($entity instanceof AbstractEntity) {
             $data = fractal($entity, $this->transformer())->toArray();
@@ -88,15 +101,21 @@ abstract class AbstractApiController extends AbstractController
             return $this->invalidRequest('The given data failed to pass validation.', $validator->getMessageBag()->toArray());
         }
 
-        $entity = $this->service()->find($id);
+        try {
 
-        if (null === $entity) {
-            return $this->notFound();
+            $entity = $this->service()->find($id);
+
+            if (null === $entity) {
+                return $this->notFound();
+            }
+
+            $attributes = $request->only($this->service()->entity()->modify_attributes());
+
+            $result = $this->service()->entity($entity)->update($attributes);
+
+        } catch(AuthorizationException $exception) {
+            return $this->unauthorized();
         }
-
-        $attributes = $request->only($this->service()->entity()->modify_attributes());
-
-        $result = $this->service()->entity($entity)->update($attributes);
 
         if (true === $result) {
             return $this->accepted();
@@ -107,13 +126,17 @@ abstract class AbstractApiController extends AbstractController
 
     public function destroy($id)
     {
-        $entity = $this->service()->find($id);
+        try {
+            $entity = $this->service()->find($id);
 
-        if (null === $entity) {
-            return $this->notFound();
+            if (null === $entity) {
+                return $this->notFound();
+            }
+
+            $result = $this->service()->entity($entity)->delete();
+        } catch(AuthorizationException $exception) {
+            return $this->unauthorized();
         }
-
-        $result = $this->service()->entity($entity)->delete();
 
         if (true === $result) {
             return $this->noContent();

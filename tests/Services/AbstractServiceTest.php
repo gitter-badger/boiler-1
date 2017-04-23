@@ -14,7 +14,7 @@ class AbstractServiceTest extends TestCase
     /** @var AbstractService $service */
     protected $service;
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
