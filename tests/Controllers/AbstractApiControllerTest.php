@@ -118,4 +118,40 @@ class AbstractApiControllerTest extends TestCase
         $this->assertEquals('The given data failed to pass validation.', $result->getData(true)['error']['message']);
         $this->assertEquals('The title field is required.', $result->getData(true)['error']['data']['title'][0]);
     }
+
+    /** @test */
+    public function it_delete_a_record_from_the_database()
+    {
+        $lesson = Factory::create(Lesson::class);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->destroy($lesson->id);
+
+        $this->assertEquals(204, $result->getStatusCode());
+        $this->assertEquals('No Content', $result->getData(true)['response']['message']);
+    }
+
+    /** @test */
+    public function it_return_error_when_trying_to_delete_lesson_that_does_not_exist()
+    {
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->destroy(1);
+
+        $this->assertEquals(404, $result->getStatusCode());
+        $this->assertEquals('Not Found', $result->getData(true)['error']['message']);
+    }
+
+    /** @test */
+    public function it_return_error_when_trying_to_update_lesson_that_does_not_exist()
+    {
+        $request = \Mockery::mock(Request::class);
+        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->update($request, 1);
+
+        $this->assertEquals(404, $result->getStatusCode());
+        $this->assertEquals('Not Found', $result->getData(true)['error']['message']);
+    }
 }

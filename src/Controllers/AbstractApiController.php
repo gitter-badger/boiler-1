@@ -77,7 +77,7 @@ abstract class AbstractApiController extends AbstractController
             return $this->created(null, $data['data']);
         }
 
-        return $this->invalidRequest();
+        return $this->internalError();
     }
 
     public function update(Request $request, $id)
@@ -91,7 +91,7 @@ abstract class AbstractApiController extends AbstractController
         $entity = $this->service()->find($id);
 
         if (null === $entity) {
-            $this->notFound();
+            return $this->notFound();
         }
 
         $attributes = $request->only($this->service()->entity()->modify_attributes());
@@ -102,6 +102,23 @@ abstract class AbstractApiController extends AbstractController
             return $this->accepted();
         }
 
-        return $this->invalidRequest();
+        return $this->internalError();
+    }
+
+    public function destroy($id)
+    {
+        $entity = $this->service()->find($id);
+
+        if (null === $entity) {
+            return $this->notFound();
+        }
+
+        $result = $this->service()->entity($entity)->delete();
+
+        if (true === $result) {
+            return $this->noContent();
+        }
+
+        return $this->internalError();
     }
 }
