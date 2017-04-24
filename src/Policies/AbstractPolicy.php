@@ -24,7 +24,7 @@ abstract class AbstractPolicy
 
     /**
      * @param User $user
-     * @param AbstractEntity|null $entity
+     * @param AbstractEntity $entity
      *
      * @return bool
      */
