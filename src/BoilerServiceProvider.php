@@ -13,6 +13,8 @@ class BoilerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerMigrations();
+
         $this->publishes([
             __DIR__.'/../vendor/yajra/laravel-datatables-oracle/src/config/datatables.php'   => config_path('datatables.php'),
             __DIR__.'/../vendor/barryvdh/laravel-ide-helper/config/ide-helper.php'           => config_path('ide-helper.php'),
@@ -62,4 +64,11 @@ class BoilerServiceProvider extends ServiceProvider
         $this->app['router']->middleware('permission', \Zizaco\Entrust\Middleware\EntrustPermission::class);
         $this->app['router']->middleware('ability', \Zizaco\Entrust\Middleware\EntrustAbility::class);
     }
+
+    private function registerMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
+    }
+
+
 }
