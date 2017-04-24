@@ -89,5 +89,4 @@ return [
     */
     'role_user_table' => 'role_user',
 
-
 ];

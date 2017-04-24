@@ -13,9 +13,9 @@ class User extends \Yakuzan\Boiler\Entities\User
 
     protected $table = 'users';
 
-    protected $fillable = [ 'name', 'email', 'password' ];
+    protected $fillable = ['name', 'email', 'password'];
 
-    protected $hidden = [ 'password', 'remember_token' ];
+    protected $hidden = ['password', 'remember_token'];
 
     protected $access_rules = [
         'name'     => 'required|string|max:255',

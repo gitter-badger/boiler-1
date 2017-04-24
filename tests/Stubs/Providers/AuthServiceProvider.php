@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Lesson::class => LessonPolicy::class
+        Lesson::class => LessonPolicy::class,
     ];
 
     /**
@@ -27,4 +27,3 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
     }
 }
-

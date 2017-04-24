@@ -5,10 +5,10 @@ namespace Yakuzan\Boiler\Tests;
 use Illuminate\Database\Schema\Blueprint;
 use Laracasts\TestDummy\Factory;
 use Yakuzan\Boiler\BoilerServiceProvider;
-use Yakuzan\Boiler\Tests\Stubs\Providers\AuthServiceProvider;
 use Yakuzan\Boiler\Tests\Stubs\Entities\Permission;
 use Yakuzan\Boiler\Tests\Stubs\Entities\Role;
 use Yakuzan\Boiler\Tests\Stubs\Entities\User;
+use Yakuzan\Boiler\Tests\Stubs\Providers\AuthServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -28,16 +28,16 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         \Mockery::close();
     }
 
-    /** @var  User $younes */
+    /** @var User $younes */
     protected $younes;
 
-    /** @var  User $imane*/
+    /** @var User $imane */
     protected $imane;
 
-    /** @var  Role $admin */
+    /** @var Role $admin */
     protected $admin;
 
-    /** @var  Role $user*/
+    /** @var Role $user */
     protected $user;
 
     public function setUp()

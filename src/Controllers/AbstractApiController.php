@@ -28,7 +28,7 @@ abstract class AbstractApiController extends AbstractController
                 $request->input('pageName', 'page'),
                 $request->input('page', null)
             );
-        } catch(AuthorizationException $exception) {
+        } catch (AuthorizationException $exception) {
             return $this->unauthorized();
         }
 
@@ -55,7 +55,7 @@ abstract class AbstractApiController extends AbstractController
     {
         try {
             $entity = $this->service()->find($id);
-        } catch(AuthorizationException $exception) {
+        } catch (AuthorizationException $exception) {
             return $this->unauthorized();
         }
 
@@ -80,7 +80,7 @@ abstract class AbstractApiController extends AbstractController
 
         try {
             $entity = $this->service()->create($attributes);
-        } catch(AuthorizationException $exception) {
+        } catch (AuthorizationException $exception) {
             return $this->unauthorized();
         }
 
@@ -102,7 +102,6 @@ abstract class AbstractApiController extends AbstractController
         }
 
         try {
-
             $entity = $this->service()->find($id);
 
             if (null === $entity) {
@@ -112,8 +111,7 @@ abstract class AbstractApiController extends AbstractController
             $attributes = $request->only($this->service()->entity()->modify_attributes());
 
             $result = $this->service()->entity($entity)->update($attributes);
-
-        } catch(AuthorizationException $exception) {
+        } catch (AuthorizationException $exception) {
             return $this->unauthorized();
         }
 
@@ -134,7 +132,7 @@ abstract class AbstractApiController extends AbstractController
             }
 
             $result = $this->service()->entity($entity)->delete();
-        } catch(AuthorizationException $exception) {
+        } catch (AuthorizationException $exception) {
             return $this->unauthorized();
         }
 
