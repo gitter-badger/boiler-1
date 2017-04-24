@@ -12,7 +12,7 @@ class AbstractTransformerTest extends TestCase
     /** @var Lesson $lesson */
     protected $lesson;
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 

@@ -26,7 +26,7 @@ trait TransformerTrait
             return $this->transformer;
         }
 
-        if (is_string($this->transformer) && class_exists($this->transformer)) {
+        if (is_a($this->transformer, AbstractTransformer::class, true)) {
             return new $this->transformer();
         }
     }

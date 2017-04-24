@@ -14,7 +14,10 @@ class BoilerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'../vendor/yajra/laravel-datatables-oracle/src/config/datatables.php' => config_path('datatables.php'),
+            __DIR__.'/../vendor/yajra/laravel-datatables-oracle/src/config/datatables.php' => config_path('datatables.php'),
+            __DIR__.'/../vendor/barryvdh/laravel-ide-helper/config/ide-helper.php' => config_path('ide-helper.php'),
+            __DIR__.'/../vendor/spatie/laravel-fractal/resources/config/laravel-fractal.php' => config_path('laravel-fractal.php'),
+            __DIR__.'/config/entrust.php' => config_path('entrust.php'),
         ]);
     }
 
@@ -27,6 +30,7 @@ class BoilerServiceProvider extends ServiceProvider
     {
         $this->registerServices();
         $this->registerAliases();
+        $this->registerMiddlewares();
     }
 
     private function registerServices()
@@ -38,6 +42,7 @@ class BoilerServiceProvider extends ServiceProvider
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Yajra\Datatables\DatatablesServiceProvider::class);
         $this->app->register(\Spatie\Fractal\FractalServiceProvider::class);
+        $this->app->register(\Zizaco\Entrust\EntrustServiceProvider::class);
     }
 
     private function registerAliases()
@@ -47,6 +52,14 @@ class BoilerServiceProvider extends ServiceProvider
             $loader->alias('Form', \Collective\Html\FormFacade::class);
             $loader->alias('Html', \Collective\Html\HtmlFacade::class);
             $loader->alias('Fractal', \Spatie\Fractal\FractalFacade::class);
+            $loader->alias('Entrust', \Zizaco\Entrust\EntrustFacade::class);
         }
+    }
+
+    private function registerMiddlewares()
+    {
+        $this->app['router']->middleware('role', \Zizaco\Entrust\Middleware\EntrustRole::class);
+        $this->app['router']->middleware('permission', \Zizaco\Entrust\Middleware\EntrustPermission::class);
+        $this->app['router']->middleware('ability', \Zizaco\Entrust\Middleware\EntrustAbility::class);
     }
 }

@@ -26,7 +26,7 @@ trait ServiceTrait
             return $this->service;
         }
 
-        if (is_string($this->service) && class_exists($this->service)) {
+        if (is_a($this->service, AbstractService::class, true)) {
             return new $this->service();
         }
     }
