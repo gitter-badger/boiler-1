@@ -12,7 +12,7 @@ abstract class AbstractPolicy
     use EntityTrait, HandlesAuthorization;
 
     /**
-     * @param User $user
+     * @param User           $user
      * @param AbstractEntity $entity
      *
      * @return bool
@@ -23,7 +23,7 @@ abstract class AbstractPolicy
     }
 
     /**
-     * @param User $user
+     * @param User           $user
      * @param AbstractEntity $entity
      *
      * @return bool
@@ -34,7 +34,7 @@ abstract class AbstractPolicy
     }
 
     /**
-     * @param User $user
+     * @param User           $user
      * @param AbstractEntity $entity
      *
      * @return bool
@@ -45,7 +45,7 @@ abstract class AbstractPolicy
     }
 
     /**
-     * @param User $user
+     * @param User           $user
      * @param AbstractEntity $entity
      *
      * @return bool

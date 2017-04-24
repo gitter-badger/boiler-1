@@ -13,8 +13,9 @@ abstract class AbstractService
     use EntityTrait, PolicyTrait, AuthorizesRequests;
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function all()
     {
@@ -28,9 +29,9 @@ abstract class AbstractService
     /**
      * @param int $id
      *
-     * @return AbstractEntity
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return AbstractEntity
      */
     public function find($id)
     {
@@ -44,9 +45,9 @@ abstract class AbstractService
     /**
      * @param array $attributes
      *
-     * @return mixed
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return mixed
      */
     public function create(array $attributes = [])
     {
@@ -60,9 +61,9 @@ abstract class AbstractService
     /**
      * @param array $values
      *
-     * @return bool
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return bool
      */
     public function update(array $values)
     {
@@ -74,9 +75,9 @@ abstract class AbstractService
     }
 
     /**
-     * @return bool|null
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return bool|null
      */
     public function delete()
     {
@@ -88,14 +89,14 @@ abstract class AbstractService
     }
 
     /**
-     * @param null $perPage
-     * @param array $columns
+     * @param null   $perPage
+     * @param array  $columns
      * @param string $pageName
-     * @param null $page
-     *
-     * @return mixed
+     * @param null   $page
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return mixed
      */
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {

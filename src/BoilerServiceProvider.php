@@ -14,10 +14,10 @@ class BoilerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../vendor/yajra/laravel-datatables-oracle/src/config/datatables.php' => config_path('datatables.php'),
-            __DIR__.'/../vendor/barryvdh/laravel-ide-helper/config/ide-helper.php' => config_path('ide-helper.php'),
+            __DIR__.'/../vendor/yajra/laravel-datatables-oracle/src/config/datatables.php'   => config_path('datatables.php'),
+            __DIR__.'/../vendor/barryvdh/laravel-ide-helper/config/ide-helper.php'           => config_path('ide-helper.php'),
             __DIR__.'/../vendor/spatie/laravel-fractal/resources/config/laravel-fractal.php' => config_path('laravel-fractal.php'),
-            __DIR__.'/config/entrust.php' => config_path('entrust.php'),
+            __DIR__.'/config/entrust.php'                                                    => config_path('entrust.php'),
         ]);
     }
 
