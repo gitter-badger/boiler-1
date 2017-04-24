@@ -69,6 +69,4 @@ class BoilerServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
-
-
 }
