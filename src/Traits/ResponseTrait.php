@@ -23,19 +23,19 @@ trait ResponseTrait
 
     /**
      * @param string|null $message
-     * @param array|null $data
+     * @param array|null  $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function respondWithError($message = null, $data = null)
     {
         $error = [
-            'message'     => $message ?? Response::$statusTexts[ $this->statusCode ] ?? '',
+            'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
             'status_code' => $this->statusCode,
         ];
 
         if (null !== $data) {
-            $error[ 'data' ] = $data;
+            $error['data'] = $data;
         }
 
         return $this->respond(['error' => $error]);
@@ -43,19 +43,19 @@ trait ResponseTrait
 
     /**
      * @param string|null $message
-     * @param array|null $data
+     * @param array|null  $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function respondWithMessage($message = null, $data = null)
     {
         $response = [
-            'message'     => $message ?? Response::$statusTexts[ $this->statusCode ] ?? '',
+            'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
             'status_code' => $this->statusCode,
         ];
 
         if (null !== $data) {
-            $response[ 'data' ] = $data;
+            $response['data'] = $data;
         }
 
         return $this->respond(['response' => $response]);
@@ -63,7 +63,7 @@ trait ResponseTrait
 
     /**
      * @param LengthAwarePaginator $paginator
-     * @param array $data
+     * @param array                $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -93,7 +93,7 @@ trait ResponseTrait
 
     /**
      * @param string|null $message
-     * @param array|null $data
+     * @param array|null  $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -114,7 +114,7 @@ trait ResponseTrait
 
     /**
      * @param string|null $message
-     * @param array|null $data
+     * @param array|null  $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
