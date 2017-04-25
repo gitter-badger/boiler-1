@@ -57,8 +57,6 @@ class Handler extends ExceptionHandler
             if ($exception instanceof  \Illuminate\Database\Eloquent\ModelNotFoundException) {
                 return $this->notFound();
             }
-
-            return $this->setStatusCode($exception->getCode())->respondWithError($exception->getMessage());
         }
 
         return parent::render($request, $exception);

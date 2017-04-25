@@ -22,40 +22,40 @@ trait ResponseTrait
     }
 
     /**
-     * @param string $message
-     * @param null   $data
+     * @param string|null $message
+     * @param array|null $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function respondWithError($message = null, $data = null)
     {
         $error = [
-            'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
+            'message'     => $message ?? Response::$statusTexts[ $this->statusCode ] ?? '',
             'status_code' => $this->statusCode,
         ];
 
         if (null !== $data) {
-            $error['data'] = $data;
+            $error[ 'data' ] = $data;
         }
 
         return $this->respond(['error' => $error]);
     }
 
     /**
-     * @param string $message
-     * @param null   $data
+     * @param string|null $message
+     * @param array|null $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function respondWithMessage($message = null, $data = null)
     {
         $response = [
-            'message'     => $message ?? Response::$statusTexts[$this->statusCode] ?? '',
+            'message'     => $message ?? Response::$statusTexts[ $this->statusCode ] ?? '',
             'status_code' => $this->statusCode,
         ];
 
         if (null !== $data) {
-            $response['data'] = $data;
+            $response[ 'data' ] = $data;
         }
 
         return $this->respond(['response' => $response]);
@@ -63,7 +63,7 @@ trait ResponseTrait
 
     /**
      * @param LengthAwarePaginator $paginator
-     * @param array                $data
+     * @param array $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -82,76 +82,90 @@ trait ResponseTrait
     }
 
     /**
-     * @param string $message
+     * @param string|null $message
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function notFound($message = null)
     {
-        return $this->setStatusCode(Response::HTTP_NOT_FOUND)->respondWithError($message);
+        return $this->status_code(Response::HTTP_NOT_FOUND)->respondWithError($message);
     }
 
     /**
-     * @param string $message
-     * @param null   $data
+     * @param string|null $message
+     * @param array|null $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function invalidRequest($message = null, $data = null)
     {
-        return $this->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message, $data);
+        return $this->status_code(Response::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message, $data);
     }
 
     /**
-     * @param string $message
+     * @param string|null $message
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function internalError($message = null)
     {
-        return $this->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)->respondWithError($message);
-    }
-
-    public function created($message = null, $data = null)
-    {
-        return $this->setStatusCode(Response::HTTP_CREATED)->respondWithMessage($message, $data);
-    }
-
-    public function accepted($message = null)
-    {
-        return $this->setStatusCode(Response::HTTP_ACCEPTED)->respondWithMessage($message);
-    }
-
-    public function noContent($message = null)
-    {
-        return $this->setStatusCode(Response::HTTP_NO_CONTENT)->respondWithMessage($message);
+        return $this->status_code(Response::HTTP_INTERNAL_SERVER_ERROR)->respondWithError($message);
     }
 
     /**
-     * @param string $message
+     * @param string|null $message
+     * @param array|null $data
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function created($message = null, $data = null)
+    {
+        return $this->status_code(Response::HTTP_CREATED)->respondWithMessage($message, $data);
+    }
+
+    /**
+     * @param string|null $message
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function accepted($message = null)
+    {
+        return $this->status_code(Response::HTTP_ACCEPTED)->respondWithMessage($message);
+    }
+
+    /**
+     * @param string|null $message
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function noContent($message = null)
+    {
+        return $this->status_code(Response::HTTP_NO_CONTENT)->respondWithMessage($message);
+    }
+
+    /**
+     * @param string|null $message
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function unauthorized($message = null)
     {
-        return $this->setStatusCode(Response::HTTP_UNAUTHORIZED)->respondWithError($message);
+        return $this->status_code(Response::HTTP_UNAUTHORIZED)->respondWithError($message);
     }
 
     /**
-     * @return int
-     */
-    public function getStatusCode()
-    {
-        return $this->statusCode;
-    }
-
-    /**
-     * @param int $statusCode
+     * @param int|null $statusCode
      *
-     * @return $this
+     * @return int|ResponseTrait
      */
-    public function setStatusCode($statusCode)
+    public function status_code($statusCode = null)
     {
-        $this->statusCode = $statusCode;
+        if (null !== $statusCode) {
+            $this->statusCode = $statusCode;
 
-        return $this;
+            return $this;
+        }
+
+        return $this->statusCode;
     }
 }
