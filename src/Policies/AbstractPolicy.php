@@ -3,7 +3,6 @@
 namespace Yakuzan\Boiler\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Yakuzan\Boiler\Entities\AbstractEntity;
 use Yakuzan\Boiler\Entities\User;
 use Yakuzan\Boiler\Traits\EntityTrait;
 
@@ -12,46 +11,34 @@ abstract class AbstractPolicy
     use EntityTrait, HandlesAuthorization;
 
     /**
-     * @param User           $user
-     * @param AbstractEntity $entity
+     * @param $name
+     * @param $arguments
      *
      * @return bool
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function view(User $user, AbstractEntity $entity = null)
+    public function __call($name, $arguments)
     {
-        return $user->hasPermission('view_'.strtolower($this->entity_base_name()));
+        $user = $arguments[0] instanceof User ? $arguments[0] : null;
+
+        return $this->authorize($name, $user);
     }
 
     /**
-     * @param User           $user
-     * @param AbstractEntity $entity
+     * @param string $function
+     * @param User $user
      *
      * @return bool
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function create(User $user, AbstractEntity $entity = null)
+    private function authorize(string $function, User $user): bool
     {
-        return $user->hasPermission('create_'.strtolower($this->entity_base_name()));
-    }
+        if (false === $user->hasPermission($function.'_'.strtolower($this->entity_base_name()))) {
+            throw new \Illuminate\Auth\Access\AuthorizationException('This action is unauthorized.', 401);
+        }
 
-    /**
-     * @param User           $user
-     * @param AbstractEntity $entity
-     *
-     * @return bool
-     */
-    public function update(User $user, AbstractEntity $entity = null)
-    {
-        return $user->hasPermission('update_'.strtolower($this->entity_base_name()));
-    }
-
-    /**
-     * @param User           $user
-     * @param AbstractEntity $entity
-     *
-     * @return bool
-     */
-    public function delete(User $user, AbstractEntity $entity = null)
-    {
-        return $user->hasPermission('delete_'.strtolower($this->entity_base_name()));
+        return true;
     }
 }
