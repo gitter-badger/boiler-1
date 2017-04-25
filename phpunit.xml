@@ -17,5 +17,11 @@
         <blacklist>
             <directory suffix=".php">./vendor</directory>
         </blacklist>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix="Test.php">./tests</directory>
+            <exclude>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
     </filter>
 </phpunit>
