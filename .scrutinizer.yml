@@ -56,6 +56,13 @@ tools:
 build:
     environment:
         php: '7.0.6'
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
+                coverage:
+                    file: 'coverage.clover'
+                    format: 'clover'
 
 filter:
     excluded_paths:
