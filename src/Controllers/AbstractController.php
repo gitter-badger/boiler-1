@@ -13,4 +13,22 @@ use Yakuzan\Boiler\Traits\ServiceTrait;
 abstract class AbstractController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ServiceTrait, EntityTrait, RequestTrait;
+
+    protected $blacklist = [];
+
+    /**
+     * @param array|null $blacklist
+     *
+     * @return array|AbstractController
+     */
+    public function blacklist(array $blacklist = null)
+    {
+        if (null !== $blacklist) {
+            $this->blacklist = $blacklist;
+
+            return $this;
+        }
+
+        return $this->blacklist;
+    }
 }
