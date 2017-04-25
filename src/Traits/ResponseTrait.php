@@ -127,6 +127,9 @@ trait ResponseTrait
         return $this->setStatusCode(Response::HTTP_NO_CONTENT)->respondWithMessage($message);
     }
 
+    /**
+     * @param string $message
+     */
     public function unauthorized($message = null)
     {
         return $this->setStatusCode(Response::HTTP_UNAUTHORIZED)->respondWithError($message);
