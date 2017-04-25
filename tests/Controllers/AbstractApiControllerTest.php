@@ -33,6 +33,12 @@ class AbstractApiControllerTest extends TestCase
         $this->app['router']->post('/lessonPolicy', 'Yakuzan\Boiler\Tests\Stubs\Controllers\LessonPolicyApiController@store');
         $this->app['router']->put('/lessonPolicy/{lessonPolicy}', 'Yakuzan\Boiler\Tests\Stubs\Controllers\LessonPolicyApiController@update');
         $this->app['router']->delete('/lessonPolicy/{lessonPolicy}', 'Yakuzan\Boiler\Tests\Stubs\Controllers\LessonPolicyApiController@destroy');
+
+        $this->app['router']->get('/lessonBlacklist', 'Yakuzan\Boiler\Tests\Stubs\Controllers\LessonBlacklistApiController@index');
+        $this->app['router']->get('/lessonBlacklist/{lessonBlacklist}', 'Yakuzan\Boiler\Tests\Stubs\Controllers\LessonBlacklistApiController@show');
+        $this->app['router']->post('/lessonBlacklist', 'Yakuzan\Boiler\Tests\Stubs\Controllers\LessonBlacklistApiController@store');
+        $this->app['router']->put('/lessonBlacklist/{lessonBlacklist}', 'Yakuzan\Boiler\Tests\Stubs\Controllers\LessonBlacklistApiController@update');
+        $this->app['router']->delete('/lessonBlacklist/{lessonBlacklist}', 'Yakuzan\Boiler\Tests\Stubs\Controllers\LessonBlacklistApiController@destroy');
     }
 
     /** @test */
@@ -417,5 +423,24 @@ class AbstractApiControllerTest extends TestCase
 
         $this->assertEquals(401, $result->getStatusCode());
         $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
+    }
+
+    /** @test */
+    public function it_deny_executing_blacklisted_functions()
+    {
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->json('GET', '/lessonBlacklist');
+
+        $this->assertEquals(401, $result->getStatusCode());
+        $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
+    }
+
+    /** @test */
+    public function it_allow_others_function_not_in_black_list_to_pass()
+    {
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->json('POST', '/lessonBlacklist', ['title' => 'new title', 'subject' => 'new subject']);
+
+        $this->assertEquals(201, $result->getStatusCode());
     }
 }
