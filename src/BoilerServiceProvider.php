@@ -21,6 +21,8 @@ class BoilerServiceProvider extends ServiceProvider
             __DIR__.'/../vendor/spatie/laravel-fractal/resources/config/laravel-fractal.php' => config_path('laravel-fractal.php'),
             __DIR__.'/config/entrust.php'                                                    => config_path('entrust.php'),
         ]);
+
+        $this->app->bind(\Illuminate\Contracts\Debug\ExceptionHandler::class, \Yakuzan\Boiler\Exceptions\Handler::class);
     }
 
     /**

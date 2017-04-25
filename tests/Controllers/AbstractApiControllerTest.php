@@ -66,11 +66,9 @@ class AbstractApiControllerTest extends TestCase
     /** @test */
     public function it_create_a_new_record_in_lessons_table()
     {
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
-        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->store($request);
+        $result = $this->controller->store(app('request'));
         $this->assertEquals(201, $result->getStatusCode());
         $this->assertArrayHasKey('id', $result->getData(true)['response']['data']);
     }
@@ -78,11 +76,9 @@ class AbstractApiControllerTest extends TestCase
     /** @test */
     public function it_return_validation_errors_when_creating_a_new_record()
     {
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['subject' => 'new subject']);
-        $request->shouldReceive('expectsJson')->andReturn(true);
+        request()->merge(['subject' => 'new subject']);
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->store($request);
+        $result = $this->controller->store(app('request'));
 
         $this->assertEquals(422, $result->getStatusCode());
         $this->assertEquals('The given data failed to pass validation.', $result->getData(true)['error']['message']);
@@ -94,12 +90,10 @@ class AbstractApiControllerTest extends TestCase
     {
         $lesson = Factory::create(Lesson::class);
 
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
-        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->update($request, $lesson->id);
+        $result = $this->controller->update(app('request'), $lesson->id);
         $this->assertEquals(202, $result->getStatusCode());
         $this->assertEquals('Accepted', $result->getData(true)['response']['message']);
     }
@@ -109,12 +103,10 @@ class AbstractApiControllerTest extends TestCase
     {
         $lesson = Factory::create(Lesson::class);
 
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['subject' => 'new subject']);
-        $request->shouldReceive('expectsJson')->andReturn(true);
+        request()->merge(['subject' => 'new subject']);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->update($request, $lesson->id);
+        $result = $this->controller->update(app('request'), $lesson->id);
 
         $this->assertEquals(422, $result->getStatusCode());
         $this->assertEquals('The given data failed to pass validation.', $result->getData(true)['error']['message']);
@@ -146,12 +138,10 @@ class AbstractApiControllerTest extends TestCase
     /** @test */
     public function it_return_error_when_trying_to_update_lesson_that_does_not_exist()
     {
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
-        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->update($request, 1);
+        $result = $this->controller->update(app('request'), 1);
 
         $this->assertEquals(404, $result->getStatusCode());
         $this->assertEquals('Not Found', $result->getData(true)['error']['message']);
@@ -210,34 +200,28 @@ class AbstractApiControllerTest extends TestCase
         $service->policy(LessonPolicy::class);
 
         auth()->login($this->younes);
-
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
-        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->store($request);
+        $result = $this->controller->service($service)->store(app('request'));
 
         $this->assertEquals(201, $result->getStatusCode());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \Illuminate\Auth\Access\AuthorizationException
+     * @expectedExceptionMessage This action is unauthorized.
+     */
     public function it_deny_user_to_create_a_new_lesson()
     {
         $service = new LessonService();
         $service->policy(LessonPolicy::class);
 
         auth()->login($this->imane);
+        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
 
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
-        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
-
-        /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->store($request);
-
-        $this->assertEquals(401, $result->getStatusCode());
-        $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
+        $this->controller->service($service)->store(app('request'));
     }
 
     /** @test */
@@ -250,16 +234,18 @@ class AbstractApiControllerTest extends TestCase
 
         $lesson = Factory::create(Lesson::class);
 
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
-        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->update($request, $lesson->id);
+        $result = $this->controller->service($service)->update(app('request'), $lesson->id);
         $this->assertEquals(202, $result->getStatusCode());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \Illuminate\Auth\Access\AuthorizationException
+     * @expectedExceptionMessage This action is unauthorized.
+     */
     public function it_deny_user_to_update_a_lesson()
     {
         $service = new LessonService();
@@ -269,15 +255,9 @@ class AbstractApiControllerTest extends TestCase
 
         $lesson = Factory::create(Lesson::class);
 
-        $request = \Mockery::mock(Request::class);
-        $request->shouldReceive('all')->andReturn(['title' => 'new title', 'subject' => 'new subject']);
-        $request->shouldReceive('only')->with(['title', 'subject'])->andReturn(['title' => 'new title', 'subject' => 'new subject']);
+        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
 
-        /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->update($request, $lesson->id);
-
-        $this->assertEquals(401, $result->getStatusCode());
-        $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
+        $this->controller->service($service)->update(app('request'), $lesson->id);
     }
 
     /** @test */
@@ -296,7 +276,11 @@ class AbstractApiControllerTest extends TestCase
         $this->assertEquals(204, $result->getStatusCode());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectedException \Illuminate\Auth\Access\AuthorizationException
+     * @expectedExceptionMessage This action is unauthorized.
+     */
     public function it_deny_user_to_delete_a_lesson()
     {
         $service = new LessonService();
@@ -306,10 +290,6 @@ class AbstractApiControllerTest extends TestCase
 
         $lesson = Factory::create(Lesson::class);
 
-        /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->destroy($lesson->id);
-
-        $this->assertEquals(401, $result->getStatusCode());
-        $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
+        $this->controller->service($service)->destroy($lesson->id);
     }
 }
