@@ -31,7 +31,6 @@ class ExceptionHandler
         $controller = $request->route()->getController();
 
         if (is_a($controller, AbstractController::class) && in_array($method, $controller->blacklist(), true)) {
-
             if ($request->wantsJson()) {
                 return $this->unauthorized();
             }
