@@ -14,7 +14,7 @@ trait ResponseTrait
 
     /**
      * @param string|array $data
-     * @param array $headers
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -24,9 +24,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
-     * @param string|array  $data
-     * @param array $headers
+     * @param string|null  $message
+     * @param string|array $data
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -45,9 +45,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
-     * @param string|array  $data
-     * @param array $headers
+     * @param string|null  $message
+     * @param string|array $data
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -87,9 +87,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
+     * @param string|null  $message
      * @param string|array $data
-     * @param array $headers
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -99,9 +99,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
-     * @param string|array  $data
-     * @param array $headers
+     * @param string|null  $message
+     * @param string|array $data
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -111,9 +111,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
+     * @param string|null  $message
      * @param string|array $data
-     * @param array $headers
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -123,9 +123,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
-     * @param string|array  $data
-     * @param array $headers
+     * @param string|null  $message
+     * @param string|array $data
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -135,9 +135,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
+     * @param string|null  $message
      * @param string|array $data
-     * @param array $headers
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -147,9 +147,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
+     * @param string|null  $message
      * @param string|array $data
-     * @param array $headers
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -159,9 +159,9 @@ trait ResponseTrait
     }
 
     /**
-     * @param string|null $message
+     * @param string|null  $message
      * @param string|array $data
-     * @param array $headers
+     * @param array        $headers
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -171,11 +171,11 @@ trait ResponseTrait
     }
 
     /**
-     * Create a file download response. Wrapper for Response::download()
+     * Create a file download response. Wrapper for Response::download().
      *
-     * @param  \SplFileInfo|string  $file
-     * @param  string  $name
-     * @param  array   $headers
+     * @param \SplFileInfo|string $file
+     * @param string              $name
+     * @param array               $headers
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
@@ -191,11 +191,11 @@ trait ResponseTrait
     }
 
     /**
-     * Create a streamed response. Wrapper for Response::stream()
+     * Create a streamed response. Wrapper for Response::stream().
      *
-     * @param  callable $callback
-     * @param  integer  $status
-     * @param  array    $headers
+     * @param callable $callback
+     * @param int      $status
+     * @param array    $headers
      *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
