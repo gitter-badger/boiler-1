@@ -20,6 +20,10 @@ abstract class AbstractApiController extends AbstractController
      */
     public function index(Request $request)
     {
+        if (in_array(__FUNCTION__, $this->blacklist, true)) {
+            return $this->unauthorized();
+        }
+
         $paginator = $this->service()->paginate(
             $request->input('limit', null),
             $request->input('columns', ['*']),
@@ -48,6 +52,10 @@ abstract class AbstractApiController extends AbstractController
      */
     public function show($id)
     {
+        if (in_array(__FUNCTION__, $this->blacklist, true)) {
+            return $this->unauthorized();
+        }
+
         $entity = $this->service()->find($id);
 
         if (null === $entity) {
@@ -61,6 +69,10 @@ abstract class AbstractApiController extends AbstractController
 
     public function store(Request $request)
     {
+        if (in_array(__FUNCTION__, $this->blacklist, true)) {
+            return $this->unauthorized();
+        }
+
         $validator = validator($request->all(), $this->service()->entity()->access_rules($request));
 
         if ($validator->fails()) {
@@ -85,6 +97,10 @@ abstract class AbstractApiController extends AbstractController
 
     public function update(Request $request, $id)
     {
+        if (in_array(__FUNCTION__, $this->blacklist, true)) {
+            return $this->unauthorized();
+        }
+
         $validator = validator($request->all(), $this->service()->entity()->modify_rules($request));
 
         if ($validator->fails()) {
@@ -113,6 +129,10 @@ abstract class AbstractApiController extends AbstractController
 
     public function destroy($id)
     {
+        if (in_array(__FUNCTION__, $this->blacklist, true)) {
+            return $this->unauthorized();
+        }
+
         $entity = $this->service()->find($id);
 
         if (null === $entity) {

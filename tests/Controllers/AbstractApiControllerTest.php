@@ -418,4 +418,14 @@ class AbstractApiControllerTest extends TestCase
         $this->assertEquals(401, $result->getStatusCode());
         $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
     }
+
+    /** @test */
+    public function it_deny_executing_blacklisted_functions()
+    {
+        /** @var \Illuminate\Http\JsonResponse $result */
+        $result = $this->controller->blacklist(['index'])->index(new Request());
+
+        $this->assertEquals(401, $result->getStatusCode());
+        $this->assertEquals('Unauthorized', $result->getData(true)['error']['message']);
+    }
 }
