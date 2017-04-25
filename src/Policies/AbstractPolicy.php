@@ -14,9 +14,9 @@ abstract class AbstractPolicy
      * @param $name
      * @param $arguments
      *
-     * @return bool
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return bool
      */
     public function __call($name, $arguments)
     {
@@ -27,11 +27,11 @@ abstract class AbstractPolicy
 
     /**
      * @param string $function
-     * @param User $user
-     *
-     * @return bool
+     * @param User   $user
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return bool
      */
     private function authorize(string $function, User $user): bool
     {
