@@ -4,8 +4,8 @@ namespace Yakuzan\Boiler\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
-use Yakuzan\Boiler\Traits\ResponseTrait;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Yakuzan\Boiler\Traits\ResponseTrait;
 
 class Handler extends ExceptionHandler
 {
@@ -30,14 +30,14 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param \Exception $exception
+     *
      * @return void
      */
     public function report(Exception $exception)
     {
         parent::report($exception);
     }
-
 
     /**
      * Render an exception into an HTTP response.
@@ -50,7 +50,6 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($request->expectsJson()) {
-
             if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
                 return $this->unauthorized();
             }
