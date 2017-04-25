@@ -21,8 +21,6 @@ class BoilerServiceProvider extends ServiceProvider
             __DIR__.'/../vendor/spatie/laravel-fractal/resources/config/laravel-fractal.php' => config_path('laravel-fractal.php'),
             __DIR__.'/config/entrust.php'                                                    => config_path('entrust.php'),
         ]);
-
-        $this->app->bind(\Illuminate\Contracts\Debug\ExceptionHandler::class, \Yakuzan\Boiler\Exceptions\Handler::class);
     }
 
     /**
@@ -65,6 +63,7 @@ class BoilerServiceProvider extends ServiceProvider
         $this->app['router']->middleware('role', \Zizaco\Entrust\Middleware\EntrustRole::class);
         $this->app['router']->middleware('permission', \Zizaco\Entrust\Middleware\EntrustPermission::class);
         $this->app['router']->middleware('ability', \Zizaco\Entrust\Middleware\EntrustAbility::class);
+        $this->app->make(\Illuminate\Contracts\Http\Kernel::class)->prependMiddleware(\Yakuzan\Boiler\Middlewares\ExceptionHandler::class);
     }
 
     private function registerMigrations()
