@@ -22,7 +22,7 @@ class BoilerServiceProvider extends ServiceProvider
             __DIR__.'/config/entrust.php'                                                    => config_path('entrust.php'),
         ]);
 
-        $this->app->bind(\App\Exceptions\Handler::class, \Yakuzan\Boiler\Exceptions\Handler::class);
+        $this->app->bind(\Illuminate\Contracts\Debug\ExceptionHandler::class, \Yakuzan\Boiler\Exceptions\Handler::class);
     }
 
     /**

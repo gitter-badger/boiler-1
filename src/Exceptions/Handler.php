@@ -2,6 +2,7 @@
 
 namespace Yakuzan\Boiler\Exceptions;
 
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Yakuzan\Boiler\Traits\ResponseTrait;
 
@@ -17,15 +18,10 @@ class Handler extends \App\Exceptions\Handler
      *
      * @return \Illuminate\Http\Response
      */
-    public function render($request, \Exception $exception)
+    public function render($request, Exception $exception)
     {
         if ($request->expectsJson()) {
-            if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-                return $this->unauthorized();
-            }
-            if($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException){
-                return $this->notFound();
-            }
+            return $this->setStatusCode($exception->getCode())->respondWithError($exception->getMessage());
         }
 
         return parent::render($request, $exception);
