@@ -25,7 +25,11 @@
         "illuminate/routing": "^5.4",
         "illuminate/support": "^5.4",
         "spatie/laravel-fractal": "^3.5",
-        "zizaco/entrust": "^1.8"
+        "zizaco/entrust": "^1.8",
+        "illuminate/database": "^5.4",
+        "illuminate/filesystem": "^5.4",
+        "illuminate/http": "^5.4",
+        "illuminate/view": "^5.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.3",

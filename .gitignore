@@ -1,2 +1,5 @@
 vendor/
 .idea
+/coverage
+composer.phar
+composer.lock
