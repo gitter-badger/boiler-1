@@ -27,7 +27,6 @@ abstract class AbstractApiController extends AbstractController
             $request->input('page', null)
         );
 
-
         $collection = $paginator->getCollection();
 
         if (0 === $collection->count()) {
@@ -78,7 +77,7 @@ abstract class AbstractApiController extends AbstractController
         if ($entity instanceof AbstractEntity) {
             $data = fractal($entity, $this->transformer())->toArray();
 
-            return $this->created(null, $data[ 'data' ]);
+            return $this->created(null, $data['data']);
         }
 
         return $this->internalError();
