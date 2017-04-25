@@ -62,5 +62,3 @@ filter:
         - tests/*
         - vendor/*
         - .github/*
-
-sensiolabs_security_checker: true
