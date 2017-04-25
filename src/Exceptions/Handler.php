@@ -10,12 +10,11 @@ class Handler extends \App\Exceptions\Handler
 {
     use ResponseTrait;
 
-
     /**
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Exception $exception
+     * @param Exception                $exception
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
@@ -32,7 +31,7 @@ class Handler extends \App\Exceptions\Handler
      * Convert an authentication exception into an unauthenticated response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param AuthenticationException $exception
+     * @param AuthenticationException  $exception
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
