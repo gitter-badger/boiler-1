@@ -4,6 +4,14 @@ checks:
 build:
     environment:
         php: '7.0.6'
+
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --coverage-clover=some-file'
+                coverage:
+                    file: 'some-file'
+                    format: 'clover'
 tools:
     php_sim: true
     php_pdepend: true
