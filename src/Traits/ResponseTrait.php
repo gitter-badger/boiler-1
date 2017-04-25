@@ -12,7 +12,7 @@ trait ResponseTrait
     protected $statusCode = Response::HTTP_OK;
 
     /**
-     * @param string|array $data
+     * @param string|array|null $data
      *
      * @return \Illuminate\Http\JsonResponse
      */
