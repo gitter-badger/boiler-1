@@ -25,10 +25,10 @@ tools:
     php_code_coverage: true
     php_code_sniffer:
         enabled: true
-            config:
-                standard: PSR2
-            filter:
-                paths: ["src/*", "tests/*"]
+        config:
+            standard: PSR2
+        filter:
+            paths: ["src/*", "tests/*"]
     php_cpd:
         enabled: true
         excluded_dirs: ["tests", "vendor"]
