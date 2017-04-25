@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Yakuzan\Boiler\Controllers\AbstractController;
 use Yakuzan\Boiler\Traits\ResponseTrait;
 
 class ExceptionHandler
@@ -26,17 +25,6 @@ class ExceptionHandler
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-
-        $method = $request->route()->getActionMethod();
-        $controller = $request->route()->getController();
-
-        if (is_a($controller, AbstractController::class) && in_array($method, $controller->blacklist(), true)) {
-            if ($request->wantsJson()) {
-                return $this->unauthorized();
-            }
-
-            throw new AuthorizationException();
-        }
 
         if (!empty($response->exception) && $request->expectsJson()) {
             switch (true) {
