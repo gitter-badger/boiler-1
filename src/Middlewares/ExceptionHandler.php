@@ -12,12 +12,12 @@ class ExceptionHandler
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     *
-     * @return mixed
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return mixed
      */
     public function handle($request, Closure $next)
     {
@@ -27,7 +27,6 @@ class ExceptionHandler
 
         if (($controller = $route->controller) instanceof \Yakuzan\Boiler\Controllers\AbstractController
             && in_array($route->getActionMethod(), $controller->blacklist(), true)) {
-
             if ($request->wantsJson()) {
                 return $this->unauthorized();
             }
