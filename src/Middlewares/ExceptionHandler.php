@@ -3,6 +3,10 @@
 namespace Yakuzan\Boiler\Middlewares;
 
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Yakuzan\Boiler\Controllers\AbstractController;
 use Yakuzan\Boiler\Traits\ResponseTrait;
 
 class ExceptionHandler
@@ -15,7 +19,7 @@ class ExceptionHandler
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      *
      * @return mixed
      */
@@ -23,28 +27,26 @@ class ExceptionHandler
     {
         $response = $next($request);
 
-        $route = $request->route();
+        $method = $request->route()->getActionMethod();
+        $controller = $request->route()->getController();
 
-        if (($controller = $route->controller) instanceof \Yakuzan\Boiler\Controllers\AbstractController
-            && in_array($route->getActionMethod(), $controller->blacklist(), true)) {
+        if (is_a($controller, AbstractController::class) && in_array($method, $controller->blacklist(), true)) {
+
             if ($request->wantsJson()) {
                 return $this->unauthorized();
             }
 
-            throw new \Illuminate\Auth\Access\AuthorizationException();
+            throw new AuthorizationException();
         }
 
         if (!empty($response->exception) && $request->expectsJson()) {
-            if ($response->exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-                return $this->unauthorized();
-            }
-
-            if ($response->exception instanceof  \Illuminate\Database\Eloquent\ModelNotFoundException) {
-                return $this->notFound();
-            }
-
-            if ($response->exception instanceof \Illuminate\Auth\AuthenticationException) {
-                return $this->unauthorized('Unauthenticated');
+            switch (true) {
+                case is_a($response->exception, AuthorizationException::class):
+                    return $this->unauthorized();
+                case is_a($response->exception, ModelNotFoundException::class):
+                    return $this->notFound();
+                case is_a($response->exception, AuthenticationException::class):
+                    return $this->unauthorized('Unauthenticated');
             }
         }
 
