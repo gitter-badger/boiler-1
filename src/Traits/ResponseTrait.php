@@ -4,6 +4,9 @@ namespace Yakuzan\Boiler\Traits;
 
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 trait ResponseTrait
 {
@@ -151,6 +154,40 @@ trait ResponseTrait
     public function unauthorized($message = null)
     {
         return $this->status_code(Response::HTTP_UNAUTHORIZED)->respondWithError($message);
+    }
+
+    /**
+     * Create a file download response. Wrapper for Response::download()
+     *
+     * @param  \SplFileInfo|string  $file
+     * @param  string  $name
+     * @param  array   $headers
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download($file, $name = null, array $headers = array())
+    {
+        $response = new BinaryFileResponse($file, 200, $headers, true, 'attachment');
+
+        if ($name !== null) {
+            return $response->setContentDisposition('attachment', $name, Str::ascii($name));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Create a streamed response. Wrapper for Response::stream()
+     *
+     * @param  callable $callback
+     * @param  integer  $status
+     * @param  array    $headers
+     *
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    protected function stream(callable $callback, $status = 200, array $headers = array())
+    {
+        return new StreamedResponse($callback, $status, $headers);
     }
 
     /**
