@@ -2,6 +2,7 @@
 
 namespace Yakuzan\Boiler\Traits;
 
+use Yakuzan\Boiler\Entities\AbstractEntity;
 use Yakuzan\Boiler\Transformers\AbstractTransformer;
 use Yakuzan\Boiler\Transformers\DefaultTransformer;
 
@@ -39,7 +40,7 @@ trait TransformerTrait
      */
     private function guessFromEntityName()
     {
-        if (is_callable([$this, 'entity_base_name']) && '' !== $entity = $this->entity_base_name()) {
+        if ('' !== $entity = $this->entity_base_name()) {
             $transformer = config('boiler.transformers_namespace').'\\'.$entity.'Transformer';
             if (class_exists($transformer)) {
                 $this->transformer = $transformer;
@@ -50,4 +51,16 @@ trait TransformerTrait
             return new DefaultTransformer();
         }
     }
+
+    /**
+     * @return string
+     */
+    abstract public function entity_base_name();
+
+    /**
+     * @param string|AbstractEntity|null $entity
+     *
+     * @return AbstractEntity|$this
+     */
+    abstract public function entity($entity = null);
 }

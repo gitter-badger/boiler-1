@@ -2,6 +2,7 @@
 
 namespace Yakuzan\Boiler\Traits;
 
+use Yakuzan\Boiler\Entities\AbstractEntity;
 use Yakuzan\Boiler\Policies\AbstractPolicy;
 
 trait PolicyTrait
@@ -38,7 +39,7 @@ trait PolicyTrait
      */
     private function guessFromEntityName()
     {
-        if (is_callable([$this, 'entity_base_name']) && '' !== $entity = $this->entity_base_name()) {
+        if ('' !== $entity = $this->entity_base_name()) {
             $policy = config('boiler.policies_namespace').'\\'.$entity.'Policy';
             if (class_exists($policy)) {
                 $this->policy = $policy;
@@ -47,4 +48,16 @@ trait PolicyTrait
             }
         }
     }
+
+    /**
+     * @return string
+     */
+    abstract public function entity_base_name();
+
+    /**
+     * @param string|AbstractEntity|null $entity
+     *
+     * @return AbstractEntity|$this
+     */
+    abstract public function entity($entity = null);
 }

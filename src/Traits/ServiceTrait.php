@@ -2,6 +2,7 @@
 
 namespace Yakuzan\Boiler\Traits;
 
+use Yakuzan\Boiler\Entities\AbstractEntity;
 use Yakuzan\Boiler\Services\AbstractService;
 use Yakuzan\Boiler\Services\DefaultService;
 
@@ -39,21 +40,31 @@ trait ServiceTrait
      */
     private function guessFromEntityName()
     {
-        if (is_callable([$this, 'entity_base_name']) && '' !== $entity = $this->entity_base_name()) {
+        if ('' !== $entity = $this->entity_base_name()) {
             $service = config('boiler.services_namespace').'\\'.$entity.'Service';
             if (class_exists($service)) {
                 $this->service = $service;
 
                 $default = new $service();
 
-                if (is_callable([$this, 'entity'])) {
-                    $default->entity($this->entity());
-                }
+                $default->entity($this->entity());
 
                 return $default;
             }
 
-            return is_callable([$this, 'entity']) ? new DefaultService($this->entity()) : null;
+            return new DefaultService($this->entity());
         }
     }
+
+    /**
+     * @return string
+     */
+    abstract public function entity_base_name();
+
+    /**
+     * @param string|AbstractEntity|null $entity
+     *
+     * @return AbstractEntity|$this
+     */
+    abstract public function entity($entity = null);
 }
