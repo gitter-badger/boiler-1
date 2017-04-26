@@ -27,3 +27,7 @@ $factory(\Yakuzan\Boiler\Tests\Stubs\Entities\Permission::class, [
 $factory(\Yakuzan\Boiler\Tests\Stubs\Entities\Guess::class, [
     'title'   => $faker->sentence,
 ]);
+
+$factory(\Yakuzan\Boiler\Tests\Stubs\Entities\Defaults::class, [
+    'title'   => $faker->sentence,
+]);
