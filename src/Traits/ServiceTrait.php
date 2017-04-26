@@ -3,6 +3,7 @@
 namespace Yakuzan\Boiler\Traits;
 
 use Yakuzan\Boiler\Services\AbstractService;
+use Yakuzan\Boiler\Services\DefaultService;
 
 trait ServiceTrait
 {
@@ -45,6 +46,8 @@ trait ServiceTrait
 
                 return new $service();
             }
+
+            return new DefaultService($this->entity());
         }
     }
 }
