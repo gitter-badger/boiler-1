@@ -13,6 +13,8 @@ class BoilerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->mergeConfigFrom(__DIR__ . '/config/boiler.php', 'boiler');
+
         $this->registerMigrations();
 
         $this->publishes([
