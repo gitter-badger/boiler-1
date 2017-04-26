@@ -44,7 +44,10 @@ trait ServiceTrait
             if (class_exists($service)) {
                 $this->service = $service;
 
-                return new $service();
+                $default = new $service();
+                $default->entity($this->entity());
+
+                return $default;
             }
 
             return new DefaultService($this->entity());
