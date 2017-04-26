@@ -89,6 +89,14 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'role_user_table'       => 'role_user',
         ]);
 
+        $app['config']->set('boiler', [
+            'entities_namespace'     => 'Yakuzan\\Boiler\\Tests\\Stubs\\Entities',
+            'controllers_namespace'  => 'Yakuzan\\Boiler\\Tests\\Stubs\\Controllers',
+            'transformers_namespace' => 'Yakuzan\\Boiler\\Tests\\Stubs\\Transformers',
+            'services_namespace'     => 'Yakuzan\\Boiler\\Tests\\Stubs\\Services',
+            'policies_namespace'     => 'Yakuzan\\Boiler\\Tests\\Stubs\\Policies',
+        ]);
+
         \Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
@@ -139,6 +147,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
 
             $table->primary(['permission_id', 'role_id']);
+        });
+
+        \Schema::create('guess', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->timestamps();
         });
     }
 }

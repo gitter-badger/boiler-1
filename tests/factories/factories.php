@@ -23,3 +23,7 @@ $factory(\Yakuzan\Boiler\Tests\Stubs\Entities\Permission::class, [
     'display_name' => $faker->name,
     'description'  => $faker->sentence,
 ]);
+
+$factory(\Yakuzan\Boiler\Tests\Stubs\Entities\Guess::class, [
+    'title'   => $faker->sentence,
+]);
