@@ -37,7 +37,7 @@ trait ResponseTrait
             'status_code' => $this->statusCode,
         ];
 
-        if (null !== $data) {
+        if (!empty($data)) {
             $error['data'] = $data;
         }
 
@@ -58,7 +58,7 @@ trait ResponseTrait
             'status_code' => $this->statusCode,
         ];
 
-        if (null !== $data) {
+        if (!empty($data)) {
             $response['data'] = $data;
         }
 
