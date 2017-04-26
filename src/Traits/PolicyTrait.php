@@ -38,8 +38,7 @@ trait PolicyTrait
      */
     private function guessFromEntityName()
     {
-        if ('' !== $entity = $this->entity_base_name() )
-        {
+        if ('' !== $entity = $this->entity_base_name()) {
             $policy = config('boiler.policies_namespace').'\\'.$entity.'Policy';
             if (class_exists($policy)) {
                 $this->policy = $policy;
