@@ -13,7 +13,7 @@ use Yakuzan\Boiler\Tests\TestCase;
 
 class GuessControllerTest extends TestCase
 {
-    /** @var  AbstractApiController */
+    /** @var AbstractApiController */
     protected $controller;
 
     public function setUp()
@@ -27,7 +27,6 @@ class GuessControllerTest extends TestCase
         $this->app['router']->post('/guess', 'Yakuzan\Boiler\Tests\Stubs\Controllers\GuessController@store');
         $this->app['router']->put('/guess/{guess}', 'Yakuzan\Boiler\Tests\Stubs\Controllers\GuessController@update');
         $this->app['router']->delete('/guess/{guess}', 'Yakuzan\Boiler\Tests\Stubs\Controllers\GuessController@destroy');
-
     }
 
     /** @test */
@@ -167,5 +166,4 @@ class GuessControllerTest extends TestCase
         $this->assertEquals(404, $result->getStatusCode());
         $this->assertEquals('Not Found', $result->getData(true)['error']['message']);
     }
-
 }
