@@ -25,7 +25,7 @@ class BlacklistAction
     {
         $response = $next($request);
 
-        if(!empty($request->route())) {
+        if (!empty($request->route())) {
             $method = $request->route()->getActionMethod();
             $controller = $request->route()->getController();
 
