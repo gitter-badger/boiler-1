@@ -2,7 +2,6 @@
 
 namespace Yakuzan\Boiler\Traits;
 
-use function is_callable;
 use Yakuzan\Boiler\Services\AbstractService;
 use Yakuzan\Boiler\Services\DefaultService;
 
