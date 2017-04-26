@@ -20,6 +20,7 @@ class BoilerServiceProvider extends ServiceProvider
             __DIR__.'/../vendor/barryvdh/laravel-ide-helper/config/ide-helper.php'           => config_path('ide-helper.php'),
             __DIR__.'/../vendor/spatie/laravel-fractal/resources/config/laravel-fractal.php' => config_path('laravel-fractal.php'),
             __DIR__.'/config/entrust.php'                                                    => config_path('entrust.php'),
+            __DIR__.'/config/boiler.php'                                                     => config_path('boiler.php'),
         ]);
     }
 
