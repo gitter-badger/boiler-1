@@ -39,7 +39,7 @@ trait TransformerTrait
      */
     private function guessFromEntityName()
     {
-        if ('' !== $entity = $this->entity_base_name()) {
+        if (is_callable([$this, 'entity_base_name']) && '' !== $entity = $this->entity_base_name()) {
             $transformer = config('boiler.transformers_namespace').'\\'.$entity.'Transformer';
             if (class_exists($transformer)) {
                 $this->transformer = $transformer;
