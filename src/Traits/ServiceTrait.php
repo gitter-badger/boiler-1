@@ -38,8 +38,7 @@ trait ServiceTrait
      */
     private function guessFromEntityName()
     {
-        if ('' !== $entity = $this->entity_base_name() )
-        {
+        if ('' !== $entity = $this->entity_base_name()) {
             $service = config('boiler.services_namespace').'\\'.$entity.'Service';
             if (class_exists($service)) {
                 $this->service = $service;
