@@ -28,7 +28,6 @@ class BlacklistAction
         if (!empty($request->route())
             && is_a($request->route()->getController(), AbstractController::class)
             && in_array($request->route()->getActionMethod(), $request->route()->getController()->blacklist(), true)) {
-
             if ($request->wantsJson()) {
                 return $this->unauthorized();
             }
