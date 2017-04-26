@@ -25,17 +25,12 @@ class BlacklistAction
     {
         $response = $next($request);
 
-        if (!empty($request->route())) {
-            $method = $request->route()->getActionMethod();
-            $controller = $request->route()->getController();
-
-            if (is_a($controller, AbstractController::class) && in_array($method, $controller->blacklist(), true)) {
-                if ($request->wantsJson()) {
-                    return $this->unauthorized();
-                }
-
-                throw new AuthorizationException();
+        if (!empty($request->route()) && is_a($request->route()->getController(), AbstractController::class) && in_array($request->route()->getActionMethod(), $request->route()->getController()->blacklist(), true)) {
+            if ($request->wantsJson()) {
+                return $this->unauthorized();
             }
+
+            throw new AuthorizationException();
         }
 
         return $response;
