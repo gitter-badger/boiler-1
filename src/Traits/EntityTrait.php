@@ -12,7 +12,7 @@ trait EntityTrait
     /**
      * @param null $entity
      *
-     * @return AbstractEntity|$this
+     * @return AbstractEntity|EntityTrait
      */
     public function entity($entity = null)
     {

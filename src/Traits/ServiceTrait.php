@@ -12,7 +12,7 @@ trait ServiceTrait
     /**
      * @param null $service
      *
-     * @return $this|AbstractService
+     * @return AbstractService|ServiceTrait
      */
     public function service($service = null)
     {
@@ -28,6 +28,24 @@ trait ServiceTrait
 
         if (is_a($this->service, AbstractService::class, true)) {
             return new $this->service();
+        }
+
+        return $this->guessFromEntityName();
+    }
+
+    /**
+     * @return AbstractService|ServiceTrait
+     */
+    private function guessFromEntityName()
+    {
+        if ('' !== $entity = $this->entity_base_name() )
+        {
+            $service = config('boiler.services_namespace').'\\'.$entity.'Service';
+            if (class_exists($service)) {
+                $this->service = $service;
+
+                return new $service();
+            }
         }
     }
 }
