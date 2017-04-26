@@ -46,7 +46,10 @@ trait ServiceTrait
                 $this->service = $service;
 
                 $default = new $service();
-                $default->entity($this->entity());
+
+                if (is_callable([$this, 'entity'])) {
+                    $default->entity($this->entity());
+                }
 
                 return $default;
             }
