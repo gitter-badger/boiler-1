@@ -12,7 +12,7 @@ trait PolicyTrait
     /**
      * @param null $policy
      *
-     * @return AbstractPolicy|$this
+     * @return AbstractPolicy|PolicyTrait
      */
     public function policy($policy = null)
     {
@@ -28,6 +28,24 @@ trait PolicyTrait
 
         if (is_a($this->policy, AbstractPolicy::class, true)) {
             return new $this->policy();
+        }
+
+        return $this->guessFromEntityName();
+    }
+
+    /**
+     * @return AbstractPolicy|ServiceTrait
+     */
+    private function guessFromEntityName()
+    {
+        if ('' !== $entity = $this->entity_base_name() )
+        {
+            $policy = config('boiler.policies_namespace').'\\'.$entity.'Policy';
+            if (class_exists($policy)) {
+                $this->policy = $policy;
+
+                return new $policy();
+            }
         }
     }
 }
