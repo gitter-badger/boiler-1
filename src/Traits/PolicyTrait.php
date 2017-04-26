@@ -44,7 +44,11 @@ trait PolicyTrait
             if (class_exists($policy)) {
                 $this->policy = $policy;
 
-                return new $policy();
+                $default = new $policy();
+
+                $default->entity($this->entity());
+
+                return $default;
             }
         }
     }
