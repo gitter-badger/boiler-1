@@ -19,8 +19,8 @@ class BoilerRequest extends FormRequest
     public function authorize()
     {
         return empty($this->route())
-            || ! is_a($this->route()->getController(), AbstractController::class)
-            || ! in_array($this->route()->getActionMethod(), $this->route()->getController()->blacklist(), true);
+            || !is_a($this->route()->getController(), AbstractController::class)
+            || !in_array($this->route()->getActionMethod(), $this->route()->getController()->blacklist(), true);
     }
 
     /**
