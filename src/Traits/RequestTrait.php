@@ -2,17 +2,17 @@
 
 namespace Yakuzan\Boiler\Traits;
 
-use Yakuzan\Boiler\Requests\AbstractRequest;
+use Yakuzan\Boiler\Requests\BoilerRequest;
 
 trait RequestTrait
 {
-    /** @var AbstractRequest */
+    /** @var BoilerRequest */
     protected $request;
 
     /**
      * @param null $request
      *
-     * @return AbstractRequest|$this
+     * @return BoilerRequest|RequestTrait
      */
     public function request($request = null)
     {
@@ -22,11 +22,11 @@ trait RequestTrait
             return $this;
         }
 
-        if ($this->request instanceof AbstractRequest) {
+        if ($this->request instanceof BoilerRequest) {
             return $this->request;
         }
 
-        if (is_a($this->request, AbstractRequest::class, true)) {
+        if (is_a($this->request, BoilerRequest::class, true)) {
             return new $this->request();
         }
     }
