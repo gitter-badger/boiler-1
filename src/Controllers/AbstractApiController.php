@@ -16,9 +16,9 @@ abstract class AbstractApiController extends AbstractController
     /**
      * @param BoilerRequest $request
      *
-     * @return \Illuminate\Http\JsonResponse
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(BoilerRequest $request)
     {
@@ -45,11 +45,11 @@ abstract class AbstractApiController extends AbstractController
 
     /**
      * @param BoilerRequest $request
-     * @param int $id
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param int           $id
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(BoilerRequest $request, $id)
     {
@@ -67,9 +67,9 @@ abstract class AbstractApiController extends AbstractController
     /**
      * @param BoilerRequest $request
      *
-     * @return \Illuminate\Http\JsonResponse
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(BoilerRequest $request)
     {
@@ -90,9 +90,9 @@ abstract class AbstractApiController extends AbstractController
      * @param BoilerRequest $request
      * @param $id
      *
-     * @return \Illuminate\Http\JsonResponse
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(BoilerRequest $request, $id)
     {
@@ -117,9 +117,9 @@ abstract class AbstractApiController extends AbstractController
      * @param BoilerRequest $request
      * @param $id
      *
-     * @return \Illuminate\Http\JsonResponse
-     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(BoilerRequest $request, $id)
     {
