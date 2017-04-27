@@ -2,9 +2,9 @@
 
 namespace Yakuzan\Boiler\Tests\Controllers;
 
-use Illuminate\Http\Request;
 use Laracasts\TestDummy\Factory;
 use Yakuzan\Boiler\Controllers\AbstractApiController;
+use Yakuzan\Boiler\Requests\BoilerRequest;
 use Yakuzan\Boiler\Tests\Stubs\Controllers\LessonApiController;
 use Yakuzan\Boiler\Tests\Stubs\Entities\Lesson;
 use Yakuzan\Boiler\Tests\Stubs\Policies\LessonPolicy;
@@ -169,14 +169,14 @@ class AbstractApiControllerTest extends TestCase
         auth()->login($this->younes);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->index(new Request());
+        $result = $this->controller->service($service)->index(new BoilerRequest());
 
         $this->assertEquals(200, $result->getStatusCode());
 
         auth()->login($this->imane);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->index(new Request());
+        $result = $this->controller->service($service)->index(new BoilerRequest());
 
         $this->assertEquals(200, $result->getStatusCode());
     }
@@ -212,14 +212,14 @@ class AbstractApiControllerTest extends TestCase
         auth()->login($this->younes);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->show($lesson->id);
+        $result = $this->controller->service($service)->show(new BoilerRequest(), $lesson->id);
 
         $this->assertEquals(200, $result->getStatusCode());
 
         auth()->login($this->imane);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->show($lesson->id);
+        $result = $this->controller->service($service)->show(new BoilerRequest(), $lesson->id);
 
         $this->assertEquals(200, $result->getStatusCode());
     }
@@ -251,10 +251,10 @@ class AbstractApiControllerTest extends TestCase
         $service->policy(LessonPolicy::class);
 
         auth()->login($this->younes);
-        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
-
+        $request = new BoilerRequest();
+        $request->merge(['title' => 'new title', 'subject' => 'new subject']);
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->store(app('request'));
+        $result = $this->controller->service($service)->store($request);
 
         $this->assertEquals(201, $result->getStatusCode());
     }
@@ -281,9 +281,11 @@ class AbstractApiControllerTest extends TestCase
         $service->policy(LessonPolicy::class);
 
         auth()->login($this->imane);
-        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
 
-        $this->controller->service($service)->store(app('request'));
+        $request = new BoilerRequest();
+        $request->merge(['title' => 'new title', 'subject' => 'new subject']);
+
+        $this->controller->service($service)->store($request);
     }
 
     /**
@@ -309,10 +311,11 @@ class AbstractApiControllerTest extends TestCase
 
         $lesson = Factory::create(Lesson::class);
 
-        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
+        $request = new BoilerRequest();
+        $request->merge(['title' => 'new title', 'subject' => 'new subject']);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->update(app('request'), $lesson->id);
+        $result = $this->controller->service($service)->update($request, $lesson->id);
         $this->assertEquals(202, $result->getStatusCode());
     }
 
@@ -342,9 +345,10 @@ class AbstractApiControllerTest extends TestCase
 
         $lesson = Factory::create(Lesson::class);
 
-        request()->merge(['title' => 'new title', 'subject' => 'new subject']);
+        $request = new BoilerRequest();
+        $request->merge(['title' => 'new title', 'subject' => 'new subject']);
 
-        $this->controller->service($service)->update(app('request'), $lesson->id);
+        $this->controller->service($service)->update($request, $lesson->id);
     }
 
     /**
@@ -374,7 +378,7 @@ class AbstractApiControllerTest extends TestCase
         $lesson = Factory::create(Lesson::class);
 
         /** @var \Illuminate\Http\JsonResponse $result */
-        $result = $this->controller->service($service)->destroy($lesson->id);
+        $result = $this->controller->service($service)->destroy(new BoilerRequest(), $lesson->id);
 
         $this->assertEquals(204, $result->getStatusCode());
     }
@@ -406,7 +410,7 @@ class AbstractApiControllerTest extends TestCase
 
         $lesson = Factory::create(Lesson::class);
 
-        $this->controller->service($service)->destroy($lesson->id);
+        $this->controller->service($service)->destroy(new BoilerRequest(), $lesson->id);
     }
 
     /**

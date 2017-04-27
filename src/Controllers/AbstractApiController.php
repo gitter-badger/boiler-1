@@ -2,10 +2,10 @@
 
 namespace Yakuzan\Boiler\Controllers;
 
-use Illuminate\Http\Request;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Yakuzan\Boiler\Entities\AbstractEntity;
+use Yakuzan\Boiler\Requests\BoilerRequest;
 use Yakuzan\Boiler\Traits\ResponseTrait;
 use Yakuzan\Boiler\Traits\TransformerTrait;
 
@@ -14,11 +14,13 @@ abstract class AbstractApiController extends AbstractController
     use TransformerTrait, ResponseTrait;
 
     /**
-     * @param Request $request
+     * @param BoilerRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(Request $request)
+    public function index(BoilerRequest $request)
     {
         $paginator = $this->service()->paginate(
             $request->input('limit', null),
@@ -42,11 +44,14 @@ abstract class AbstractApiController extends AbstractController
     }
 
     /**
+     * @param BoilerRequest $request
      * @param int $id
      *
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show($id)
+    public function show(BoilerRequest $request, $id)
     {
         $entity = $this->service()->find($id);
 
@@ -59,17 +64,15 @@ abstract class AbstractApiController extends AbstractController
         return $this->respond($data);
     }
 
-    public function store(Request $request)
+    /**
+     * @param BoilerRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function store(BoilerRequest $request)
     {
-        $validator = validator($request->all(), $this->service()->entity()->access_rules($request));
-
-        if ($validator->fails()) {
-            return $this->invalidRequest(
-                'The given data failed to pass validation.',
-                $validator->getMessageBag()->toArray()
-            );
-        }
-
         $attributes = $request->only($this->service()->entity()->access_attributes());
 
         $entity = $this->service()->create($attributes);
@@ -83,17 +86,16 @@ abstract class AbstractApiController extends AbstractController
         return $this->internalError();
     }
 
-    public function update(Request $request, $id)
+    /**
+     * @param BoilerRequest $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(BoilerRequest $request, $id)
     {
-        $validator = validator($request->all(), $this->service()->entity()->modify_rules($request));
-
-        if ($validator->fails()) {
-            return $this->invalidRequest(
-                'The given data failed to pass validation.',
-                $validator->getMessageBag()->toArray()
-            );
-        }
-
         $entity = $this->service()->find($id);
 
         if (null === $entity) {
@@ -111,7 +113,15 @@ abstract class AbstractApiController extends AbstractController
         return $this->internalError();
     }
 
-    public function destroy($id)
+    /**
+     * @param BoilerRequest $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function destroy(BoilerRequest $request, $id)
     {
         $entity = $this->service()->find($id);
 
