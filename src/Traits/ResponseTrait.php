@@ -2,15 +2,28 @@
 
 namespace Yakuzan\Boiler\Traits;
 
+use function array_key_exists;
+use function class_basename;
+use Exception;
+use function get_class;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 trait ResponseTrait
 {
     protected $statusCode = Response::HTTP_OK;
+
+    protected $exceptions = [
+        AuthorizationException::class  => ['method' => 'unauthorized', 'message' => null],
+        ModelNotFoundException::class  => ['method' => 'notFound', 'message' => null],
+        AuthenticationException::class => ['method' => 'unauthorized', 'message' => 'Unauthenticated'],
+    ];
 
     /**
      * @param string|array $data
@@ -159,6 +172,43 @@ trait ResponseTrait
     }
 
     /**
+     * @param Exception $exception
+     *
+     * @return Exception
+     */
+    public function exception(Exception $exception)
+    {
+        $exception_class = get_class($exception);
+
+        if (array_key_exists($exception_class, $this->exceptions)) {
+            $method = $this->exceptions[$exception_class]['method'];
+            $message = $this->exceptions[$exception_class]['message'];
+
+            return $this->{$method}($message);
+        }
+    }
+
+        /**
+         * Create a streamed response. Wrapper for Response::stream().
+         *
+         * @param callable $callback
+         * @param int      $status
+         * @param array    $headers
+         *
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse
+         */
+
+        /**
+         * Create a file download response. Wrapper for Response::download().
+         *
+         * @param \SplFileInfo|string $file
+         * @param string              $name
+         * @param array               $headers
+         *
+         * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+         */
+
+        /**
      * @param string|null  $message
      * @param string|array $data
      * @param array        $headers
@@ -169,16 +219,6 @@ trait ResponseTrait
     {
         return $this->status_code(Response::HTTP_UNAUTHORIZED)->respondWithError($message, $data, $headers);
     }
-
-    /**
-     * Create a file download response. Wrapper for Response::download().
-     *
-     * @param \SplFileInfo|string $file
-     * @param string              $name
-     * @param array               $headers
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
     public function download($file, $name = null, array $headers = [])
     {
         $response = new BinaryFileResponse($file, 200, $headers, true, 'attachment');
@@ -189,16 +229,6 @@ trait ResponseTrait
 
         return $response;
     }
-
-    /**
-     * Create a streamed response. Wrapper for Response::stream().
-     *
-     * @param callable $callback
-     * @param int      $status
-     * @param array    $headers
-     *
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
-     */
     protected function stream(callable $callback, $status = 200, array $headers = [])
     {
         return new StreamedResponse($callback, $status, $headers);

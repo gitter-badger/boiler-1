@@ -4,8 +4,6 @@ namespace Yakuzan\Boiler\Middlewares;
 
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Yakuzan\Boiler\Traits\ResponseTrait;
 
 class ExceptionHandler
@@ -26,15 +24,8 @@ class ExceptionHandler
     {
         $response = $next($request);
 
-        if (!empty($response->exception) && $request->expectsJson()) {
-            switch (true) {
-                case is_a($response->exception, AuthorizationException::class):
-                    return $this->unauthorized();
-                case is_a($response->exception, ModelNotFoundException::class):
-                    return $this->notFound();
-                case is_a($response->exception, AuthenticationException::class):
-                    return $this->unauthorized('Unauthenticated');
-            }
+        if (!empty($response->exception) && $request->expectsJson() && null !== ($json_response = $this->exception($response->exception))) {
+            return $json_response;
         }
 
         return $response;
