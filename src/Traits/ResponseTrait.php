@@ -3,9 +3,6 @@
 namespace Yakuzan\Boiler\Traits;
 
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
@@ -15,12 +12,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 trait ResponseTrait
 {
     protected $statusCode = Response::HTTP_OK;
-
-    protected $exceptions = [
-        AuthorizationException::class  => ['method' => 'unauthorized', 'message' => null],
-        ModelNotFoundException::class  => ['method' => 'notFound', 'message' => null],
-        AuthenticationException::class => ['method' => 'unauthorized', 'message' => 'Unauthenticated'],
-    ];
 
     /**
      * @param string|array $data
@@ -177,9 +168,9 @@ trait ResponseTrait
     {
         $exception_class = get_class($exception);
 
-        if (array_key_exists($exception_class, $this->exceptions)) {
-            $method = $this->exceptions[$exception_class]['method'];
-            $message = $this->exceptions[$exception_class]['message'];
+        if (array_key_exists($exception_class, config('boiler.exceptions'))) {
+            $method = config('boiler.exceptions')[$exception_class]['method'];
+            $message = config('boiler.exceptions')[$exception_class]['message'];
 
             return $this->{$method}($message);
         }

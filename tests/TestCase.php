@@ -95,6 +95,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'transformers_namespace' => 'Yakuzan\\Boiler\\Tests\\Stubs\\Transformers',
             'services_namespace'     => 'Yakuzan\\Boiler\\Tests\\Stubs\\Services',
             'policies_namespace'     => 'Yakuzan\\Boiler\\Tests\\Stubs\\Policies',
+            'exceptions'             => [
+                \Illuminate\Auth\Access\AuthorizationException::class       => ['method' => 'unauthorized', 'message' => null],
+                \Illuminate\Database\Eloquent\ModelNotFoundException::class => ['method' => 'notFound', 'message' => null],
+                \Illuminate\Auth\AuthenticationException::class             => ['method'  => 'unauthorized', 'message' => 'Unauthenticated'],
+            ],
         ]);
 
         \Schema::create('lessons', function (Blueprint $table) {
