@@ -67,7 +67,6 @@ class BoilerServiceProvider extends ServiceProvider
         $this->app['router']->middleware('permission', \Zizaco\Entrust\Middleware\EntrustPermission::class);
         $this->app['router']->middleware('ability', \Zizaco\Entrust\Middleware\EntrustAbility::class);
         $this->app->make(\Illuminate\Contracts\Http\Kernel::class)->prependMiddleware(\Yakuzan\Boiler\Middlewares\ExceptionHandler::class);
-        $this->app->make(\Illuminate\Contracts\Http\Kernel::class)->prependMiddleware(\Yakuzan\Boiler\Middlewares\BlacklistAction::class);
     }
 
     private function registerMigrations()
