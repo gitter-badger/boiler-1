@@ -14,6 +14,7 @@ class BoilerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->mergeConfigFrom(__DIR__.'/config/boiler.php', 'boiler');
+        $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
 
         $this->registerMigrations();
 
@@ -48,6 +49,7 @@ class BoilerServiceProvider extends ServiceProvider
         $this->app->register(\Yajra\Datatables\DatatablesServiceProvider::class);
         $this->app->register(\Spatie\Fractal\FractalServiceProvider::class);
         $this->app->register(\Zizaco\Entrust\EntrustServiceProvider::class);
+        $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
     }
 
     private function registerAliases()
@@ -66,6 +68,7 @@ class BoilerServiceProvider extends ServiceProvider
         $this->app['router']->middleware('role', \Zizaco\Entrust\Middleware\EntrustRole::class);
         $this->app['router']->middleware('permission', \Zizaco\Entrust\Middleware\EntrustPermission::class);
         $this->app['router']->middleware('ability', \Zizaco\Entrust\Middleware\EntrustAbility::class);
+        $this->app['router']->pushMiddlewareToGroup('web', \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class);
         $this->app->make(\Illuminate\Contracts\Http\Kernel::class)->prependMiddleware(\Yakuzan\Boiler\Middlewares\ExceptionHandler::class);
     }
 
