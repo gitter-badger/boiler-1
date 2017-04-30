@@ -2,7 +2,6 @@
 
 namespace Yakuzan\Boiler\Entities;
 
-use function bcrypt;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
