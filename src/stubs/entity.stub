@@ -1,0 +1,9 @@
+<?php
+
+namespace {{namespace}};
+
+use Yakuzan\Boiler\Entities\AbstractEntity;
+
+class {{entity}} extends AbstractEntity
+{
+}

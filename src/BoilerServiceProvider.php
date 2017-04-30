@@ -3,6 +3,7 @@
 namespace Yakuzan\Boiler;
 
 use Illuminate\Support\ServiceProvider;
+use Yakuzan\Boiler\Commands\GenerateResource;
 
 class BoilerServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,7 @@ class BoilerServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
 
         $this->registerMigrations();
+        $this->registerCommands();
 
         $this->publishes([
             __DIR__.'/../vendor/yajra/laravel-datatables-oracle/src/config/datatables.php'   => config_path('datatables.php'),
@@ -75,5 +77,14 @@ class BoilerServiceProvider extends ServiceProvider
     private function registerMigrations()
     {
         $this->loadMigrationsFrom(__DIR__.'/migrations');
+    }
+
+    private function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                GenerateResource::class,
+            ]);
+        }
     }
 }

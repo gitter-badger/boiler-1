@@ -1,0 +1,16 @@
+<?php
+
+namespace {{namespace}};
+
+use App\{{entity}};
+use Yakuzan\Boiler\Transformers\AbstractTransformer;
+
+class {{entity}}Transformer extends AbstractTransformer
+{
+    public function transform({{entity}} $entity)
+    {
+        return [
+            'id'    => (int)$entity->id,
+        ];
+    }
+}

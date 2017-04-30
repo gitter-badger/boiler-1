@@ -1,0 +1,14 @@
+<?php
+
+namespace {{namespace}};
+
+use App\Policies\{{entity}}Policy;
+use App\{{entity}};
+use Yakuzan\Boiler\Services\AbstractService;
+
+class {{entity}}Service extends AbstractService
+{
+    protected $entity = {{entity}}::class;
+
+    protected $policy = {{entity}}Policy::class;
+}

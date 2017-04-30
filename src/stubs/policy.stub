@@ -1,0 +1,9 @@
+<?php
+
+namespace {{namespace}};
+
+use Yakuzan\Boiler\Policies\AbstractPolicy;
+
+class {{entity}}Policy extends AbstractPolicy
+{
+}

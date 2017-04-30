@@ -1,0 +1,19 @@
+<?php
+
+namespace {{namespace}};
+
+use App\Transformers\{{entity}}Transformer;
+use App\Services\{{entity}}Service;
+use App\{{entity}};
+use Yakuzan\Boiler\Controllers\AbstractApiController;
+
+class {{entity}}Controller extends AbstractApiController
+{
+    protected $entity = {{entity}}::class;
+
+    protected $blacklist = [];
+
+    protected $transformer = {{entity}}Transformer::class;
+
+    protected $service = {{entity}}Service::class;
+}
