@@ -6,6 +6,7 @@ return [
     'transformers_namespace' => 'App\\Transformers',
     'services_namespace'     => 'App\\Services',
     'policies_namespace'     => 'App\\Policies',
+    'views_path'             => resource_path('views'),
     'exceptions'             => [
         \Illuminate\Auth\Access\AuthorizationException::class       => ['method' => 'unauthorized', 'message' => null],
         \Illuminate\Database\Eloquent\ModelNotFoundException::class => ['method' => 'notFound', 'message' => null],

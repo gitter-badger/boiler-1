@@ -29,7 +29,8 @@
         "illuminate/database": "^5.4",
         "illuminate/filesystem": "^5.4",
         "illuminate/http": "^5.4",
-        "illuminate/view": "^5.4"
+        "illuminate/view": "^5.4",
+        "laravel/passport": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.3",
