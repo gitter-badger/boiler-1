@@ -2,7 +2,7 @@
 
 namespace {{namespace}};
 
-use App\{{entity}};
+use {{entities_namespace}}\{{entity}};
 use Yakuzan\Boiler\Transformers\AbstractTransformer;
 
 class {{entity}}Transformer extends AbstractTransformer

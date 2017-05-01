@@ -2,6 +2,8 @@
 
 namespace Yakuzan\Boiler\Commands;
 
+use function array_keys;
+use function array_values;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
@@ -31,8 +33,11 @@ class GenerateResource extends Command
 
         $resource = $this->getEntityName();
 
-        $this->generateClass('entity', config('boiler.entities_namespace'), $resource);
-        $this->generateClass('service', config('boiler.services_namespace'), $resource.'Service');
+//        $this->generateClass('entity', config('boiler.entities_namespace'), $resource);
+        $this->generateClass('service', config('boiler.services_namespace'), $resource.'Service', [
+            '{{policies_namespace}}' => config('boiler.policies_namespace'),
+            '{{entities_namespace}}' => config('boiler.entities_namespace'),
+        ]);
         $this->generateClass('transformer', config('boiler.transformers_namespace'), $resource.'Transformer');
         $this->generateClass('policy', config('boiler.policies_namespace'), $resource.'Policy');
         $this->generateClass('controller', config('boiler.controllers_namespace'), $resource.'Controller');
@@ -42,9 +47,10 @@ class GenerateResource extends Command
         $this->composer->dumpAutoloads();
     }
 
-    protected function generateClass($stubFile, $namespace, $resource)
+    protected function generateClass($stubFile, $namespace, $entity, $type, $replace = [])
     {
-        $path = $this->getPath($this->qualifyClass($namespace.'\\'.$resource));
+        $path = $this->getPath($this->qualifyClass($namespace.'\\'.$entity));
+        dd($path);
         $basePath = str_replace($this->laravel->basePath().'/', '', $path);
 
         if ($this->files->exists($path)) {
@@ -55,15 +61,12 @@ class GenerateResource extends Command
 
         $stub = $this->files->get(__DIR__.'/../stubs/'.$stubFile.'.stub');
 
-        $stub = str_replace(
-            ['{{entity}}', '{{namespace}}'],
-            [$resource, $namespace],
-            $stub
-        );
+        $stub = str_replace(array_merge(array_keys($replace), ['{{entity}}', '{{namespace}}']),array_merge(array_values($replace), [$resource, $namespace]),$stub);
 
+        dd($stub);
         $this->files->put($path, $stub);
 
-        $this->info($basePath . ' Created successfully');
+        $this->info($basePath.' Created successfully');
     }
 
     protected function qualifyClass($name)
@@ -105,7 +108,7 @@ class GenerateResource extends Command
 
     protected function makeDir($path)
     {
-        if (! $this->files->isDirectory(app_path(dirname($path)))) {
+        if (!$this->files->isDirectory(app_path(dirname($path)))) {
             $this->files->makeDirectory(app_path(dirname($path)), 0777, true, true);
         }
     }

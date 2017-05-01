@@ -2,9 +2,9 @@
 
 namespace {{namespace}};
 
-use App\Transformers\{{entity}}Transformer;
-use App\Services\{{entity}}Service;
-use App\{{entity}};
+use {{transformers_namespace}}\{{entity}}Transformer;
+use {{services_namespace}}\{{entity}}Service;
+use {{entities_namespace}}\{{entity}};
 use Yakuzan\Boiler\Controllers\AbstractApiController;
 
 class {{entity}}Controller extends AbstractApiController

@@ -2,8 +2,8 @@
 
 namespace {{namespace}};
 
-use App\Policies\{{entity}}Policy;
-use App\{{entity}};
+use {{policies_namespace}}\{{entity}}Policy;
+use {{entities_namespace}}\{{entity}};
 use Yakuzan\Boiler\Services\AbstractService;
 
 class {{entity}}Service extends AbstractService
