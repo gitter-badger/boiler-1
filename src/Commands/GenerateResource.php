@@ -47,7 +47,15 @@ class GenerateResource extends Command
         $this->composer->dumpAutoloads();
     }
 
+<<<<<<< HEAD
     protected function generateClass($stubFile, $namespace, $entity, $type, $replace = [])
+=======
+    /**
+     * @param string $stubFile
+     * @param string $resource
+     */
+    protected function generateClass($stubFile, $namespace, $resource)
+>>>>>>> 14c1b8a47cbf9030ed08d2329848a3f64dd5bc89
     {
         $path = $this->getPath($this->qualifyClass($namespace.'\\'.$entity));
         dd($path);
@@ -69,6 +77,9 @@ class GenerateResource extends Command
         $this->info($basePath.' Created successfully');
     }
 
+    /**
+     * @param string $name
+     */
     protected function qualifyClass($name)
     {
         $rootNamespace = $this->rootNamespace();
@@ -84,6 +95,9 @@ class GenerateResource extends Command
         );
     }
 
+    /**
+     * @param string $rootNamespace
+     */
     protected function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace;
