@@ -5,8 +5,6 @@ namespace Yakuzan\Boiler\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use function str_replace_array;
-use function strstr;
 use Symfony\Component\Console\Input\InputArgument;
 
 class GenerateResource extends Command
