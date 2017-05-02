@@ -42,10 +42,6 @@ class GenerateResource extends Command
         $this->composer->dumpAutoloads();
     }
 
-    /**
-     * @param string $stubFile
-     * @param string $resource
-     */
     protected function generateClass($type, $namespace, $entity)
     {
         $path = $this->getPath($this->qualifyClass($namespace.'\\'.$entity.('entity' === $type ? '' : ucfirst($type))));
@@ -57,25 +53,7 @@ class GenerateResource extends Command
             return;
         }
 
-        $stub = $this->files->get(__DIR__.'/../stubs/'.$type.'.stub');
-
-        $stub = str_replace([
-            '{{namespace}}',
-            '{{entity}}',
-            '{{entities_namespace}}',
-            '{{controllers_namespace}}',
-            '{{services_namespace}}',
-            '{{transformers_namespace}}',
-            '{{policies_namespace}}',
-        ], [
-            $namespace,
-            $entity,
-            config('boiler.entities_namespace'),
-            config('boiler.controllers_namespace'),
-            config('boiler.services_namespace'),
-            config('boiler.transformers_namespace'),
-            config('boiler.policies_namespace'),
-        ], $stub);
+        $stub = $this->getCompiledStub($type, $namespace, $entity);
 
         $this->makeDir(str_replace(basename($path), '', $path));
 
@@ -84,9 +62,6 @@ class GenerateResource extends Command
         $this->info($basePath.' Created successfully');
     }
 
-    /**
-     * @param string $name
-     */
     protected function qualifyClass($name)
     {
         $rootNamespace = $this->rootNamespace();
@@ -102,9 +77,6 @@ class GenerateResource extends Command
         );
     }
 
-    /**
-     * @param string $rootNamespace
-     */
     protected function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace;
@@ -144,5 +116,34 @@ class GenerateResource extends Command
         return [
             ['resource', InputArgument::REQUIRED, 'The name of the resource'],
         ];
+    }
+
+    protected function getCompiledStub($type, $namespace, $entity)
+    {
+        $stub = $this->files->get(__DIR__.'/../stubs/'.$type.'.stub');
+
+        $stub = str_replace(
+            [
+                '{{namespace}}',
+                '{{entity}}',
+                '{{entities_namespace}}',
+                '{{controllers_namespace}}',
+                '{{services_namespace}}',
+                '{{transformers_namespace}}',
+                '{{policies_namespace}}',
+            ],
+            [
+                $namespace,
+                $entity,
+                config('boiler.entities_namespace'),
+                config('boiler.controllers_namespace'),
+                config('boiler.services_namespace'),
+                config('boiler.transformers_namespace'),
+                config('boiler.policies_namespace'),
+            ],
+            $stub
+        );
+
+        return $stub;
     }
 }
