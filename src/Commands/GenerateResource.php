@@ -2,8 +2,6 @@
 
 namespace Yakuzan\Boiler\Commands;
 
-use function array_keys;
-use function array_values;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
@@ -47,15 +45,11 @@ class GenerateResource extends Command
         $this->composer->dumpAutoloads();
     }
 
-<<<<<<< HEAD
-    protected function generateClass($stubFile, $namespace, $entity, $type, $replace = [])
-=======
     /**
      * @param string $stubFile
      * @param string $resource
      */
-    protected function generateClass($stubFile, $namespace, $resource)
->>>>>>> 14c1b8a47cbf9030ed08d2329848a3f64dd5bc89
+    protected function generateClass($stubFile, $namespace, $entity, $type, $replace = [])
     {
         $path = $this->getPath($this->qualifyClass($namespace.'\\'.$entity));
         dd($path);
