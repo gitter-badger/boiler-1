@@ -61,12 +61,12 @@ class GenerateResource extends Command
 
         $stub = str_replace([
             '{{namespace}}',
-            '{{entity}}', 
-            '{{entities_namespace}}',  
-            '{{controllers_namespace}}', 
-            '{{services_namespace}}',  
-            '{{transformers_namespace}}',  
-            '{{policies_namespace}}',  
+            '{{entity}}',
+            '{{entities_namespace}}',
+            '{{controllers_namespace}}',
+            '{{services_namespace}}',
+            '{{transformers_namespace}}',
+            '{{policies_namespace}}',
         ], [
             $namespace,
             $entity,
