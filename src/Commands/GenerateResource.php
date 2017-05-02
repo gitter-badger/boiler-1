@@ -56,7 +56,6 @@ class GenerateResource extends Command
         }
 
         $stub = $this->getCompiledStub($type, $namespace, $entity);
-        dd($stub);
 
         $this->makeDir(str_replace(basename($path), '', $path));
 
