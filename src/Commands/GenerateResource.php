@@ -5,6 +5,8 @@ namespace Yakuzan\Boiler\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use function str_replace_array;
+use function strstr;
 use Symfony\Component\Console\Input\InputArgument;
 
 class GenerateResource extends Command
@@ -54,6 +56,7 @@ class GenerateResource extends Command
         }
 
         $stub = $this->getCompiledStub($type, $namespace, $entity);
+        dd($stub);
 
         $this->makeDir(str_replace(basename($path), '', $path));
 
@@ -122,28 +125,14 @@ class GenerateResource extends Command
     {
         $stub = $this->files->get(__DIR__.'/../stubs/'.$type.'.stub');
 
-        $stub = str_replace(
-            [
-                '{{namespace}}',
-                '{{entity}}',
-                '{{entities_namespace}}',
-                '{{controllers_namespace}}',
-                '{{services_namespace}}',
-                '{{transformers_namespace}}',
-                '{{policies_namespace}}',
-            ],
-            [
-                $namespace,
-                $entity,
-                config('boiler.entities_namespace'),
-                config('boiler.controllers_namespace'),
-                config('boiler.services_namespace'),
-                config('boiler.transformers_namespace'),
-                config('boiler.policies_namespace'),
-            ],
-            $stub
-        );
-
-        return $stub;
+        return strtr($stub, [
+            '{{namespace}}'              => $namespace,
+            '{{entity}}'                 => $entity,
+            '{{entities_namespace}}'     => config('boiler.entities_namespace'),
+            '{{controllers_namespace}}'  => config('boiler.controllers_namespace'),
+            '{{services_namespace}}'     => config('boiler.services_namespace'),
+            '{{transformers_namespace}}' => config('boiler.transformers_namespace'),
+            '{{policies_namespace}}'     => config('boiler.policies_namespace'),
+        ]);
     }
 }
