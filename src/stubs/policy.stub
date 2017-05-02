@@ -2,8 +2,10 @@
 
 namespace {{namespace}};
 
+use {{entities_namespace}}\{{entity}};
 use Yakuzan\Boiler\Policies\AbstractPolicy;
 
 class {{entity}}Policy extends AbstractPolicy
 {
+	protected $entity = {{entity}}::class;
 }

@@ -9,8 +9,6 @@ class {{entity}}Transformer extends AbstractTransformer
 {
     public function transform({{entity}} $entity)
     {
-        return [
-            'id'    => (int)$entity->id,
-        ];
+        return $entity->toArray();
     }
 }

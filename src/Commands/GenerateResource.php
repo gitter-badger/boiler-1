@@ -31,14 +31,11 @@ class GenerateResource extends Command
 
         $resource = $this->getEntityName();
 
-//        $this->generateClass('entity', config('boiler.entities_namespace'), $resource);
-        $this->generateClass('service', config('boiler.services_namespace'), $resource.'Service', [
-            '{{policies_namespace}}' => config('boiler.policies_namespace'),
-            '{{entities_namespace}}' => config('boiler.entities_namespace'),
-        ]);
-        $this->generateClass('transformer', config('boiler.transformers_namespace'), $resource.'Transformer');
-        $this->generateClass('policy', config('boiler.policies_namespace'), $resource.'Policy');
-        $this->generateClass('controller', config('boiler.controllers_namespace'), $resource.'Controller');
+        $this->generateClass('entity', config('boiler.entities_namespace'), $resource);
+        $this->generateClass('service', config('boiler.services_namespace'), $resource);
+        $this->generateClass('transformer', config('boiler.transformers_namespace'), $resource);
+        $this->generateClass('policy', config('boiler.policies_namespace'), $resource);
+        $this->generateClass('controller', config('boiler.controllers_namespace'), $resource);
 
         $this->info('please wait...');
 
@@ -49,10 +46,9 @@ class GenerateResource extends Command
      * @param string $stubFile
      * @param string $resource
      */
-    protected function generateClass($stubFile, $namespace, $entity, $type, $replace = [])
+    protected function generateClass($type, $namespace, $entity)
     {
-        $path = $this->getPath($this->qualifyClass($namespace.'\\'.$entity));
-        dd($path);
+        $path = $this->getPath($this->qualifyClass($namespace.'\\'.$entity.('entity' === $type ? '' : ucfirst($type))));
         $basePath = str_replace($this->laravel->basePath().'/', '', $path);
 
         if ($this->files->exists($path)) {
@@ -61,10 +57,28 @@ class GenerateResource extends Command
             return;
         }
 
-        $stub = $this->files->get(__DIR__.'/../stubs/'.$stubFile.'.stub');
+        $stub = $this->files->get(__DIR__.'/../stubs/'.$type.'.stub');
 
-        $stub = str_replace(array_merge(array_keys($replace), ['{{entity}}', '{{namespace}}']), array_merge(array_values($replace), [$resource, $namespace]), $stub);
-        dd($stub);
+        $stub = str_replace([
+            '{{namespace}}',
+            '{{entity}}', 
+            '{{entities_namespace}}',  
+            '{{controllers_namespace}}', 
+            '{{services_namespace}}',  
+            '{{transformers_namespace}}',  
+            '{{policies_namespace}}',  
+        ], [
+            $namespace,
+            $entity,
+            config('boiler.entities_namespace'),
+            config('boiler.controllers_namespace'),
+            config('boiler.services_namespace'),
+            config('boiler.transformers_namespace'),
+            config('boiler.policies_namespace'),
+        ], $stub);
+
+        $this->makeDir(str_replace(basename($path), '', $path));
+
         $this->files->put($path, $stub);
 
         $this->info($basePath.' Created successfully');
@@ -115,8 +129,8 @@ class GenerateResource extends Command
 
     protected function makeDir($path)
     {
-        if (!$this->files->isDirectory(app_path(dirname($path)))) {
-            $this->files->makeDirectory(app_path(dirname($path)), 0777, true, true);
+        if (!$this->files->isDirectory($path)) {
+            $this->files->makeDirectory($path, 0777, true, true);
         }
     }
 

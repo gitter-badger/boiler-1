@@ -11,8 +11,6 @@ class {{entity}}Controller extends AbstractApiController
 {
     protected $entity = {{entity}}::class;
 
-    protected $blacklist = [];
-
     protected $transformer = {{entity}}Transformer::class;
 
     protected $service = {{entity}}Service::class;
