@@ -64,7 +64,6 @@ class GenerateResource extends Command
         $stub = $this->files->get(__DIR__.'/../stubs/'.$stubFile.'.stub');
 
         $stub = str_replace(array_merge(array_keys($replace), ['{{entity}}', '{{namespace}}']), array_merge(array_values($replace), [$resource, $namespace]),$stub);
-
         dd($stub);
         $this->files->put($path, $stub);
 
