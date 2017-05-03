@@ -6,6 +6,15 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yakuzan/boiler/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yakuzan/boiler/?branch=master)
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/yakuzan/boiler)
 
-boilerplate package for rapid laravel development.
+boilerplate package for rapid api laravel development.
 
-this package is under construction ^^, can't wait to make the first release.
+This package is under construction ^^, can't wait to make the first release.
+
+## Boiller with provide...
+* An abstract api controller, to automatically add the crud operations.
+* Multiple traits like response trait, to respond with api response and codes.
+* An abstract and default transformer to edit the response format.
+* Authentification with laraval passport package.
+* policy with entrust package.
+* a console command to create files automatically for us.
+* .... and more, just wait ;)
