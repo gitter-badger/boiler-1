@@ -10,7 +10,7 @@ boilerplate package for rapid api laravel development.
 
 This package is under construction ^^, can't wait to make the first release.
 
-## Boiller will provide...
+## Boiler will provide you with...
 * An abstract api controller, to automatically add the crud operations.
 * Multiple traits like response trait, to respond with api response and codes.
 * An abstract and default transformer to edit the response format.
