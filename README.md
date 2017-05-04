@@ -4,6 +4,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/yakuzan/boiler/badges/build.png?b=master)](https://scrutinizer-ci.com/g/yakuzan/boiler/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/yakuzan/boiler/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yakuzan/boiler/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yakuzan/boiler/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yakuzan/boiler/?branch=master)
+[![StyleCI](https://styleci.io/repos/88533666/shield?style=flat)](https://styleci.io/repos/88533666/shield?style=flat)
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/yakuzan/boiler)
 
 boilerplate package for rapid api laravel development.
