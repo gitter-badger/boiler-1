@@ -59,7 +59,7 @@ abstract class AbstractDataTable extends DataTable
      */
     protected function getColumns()
     {
-        if(null !== $this->columns) {
+        if (null !== $this->columns) {
             return $this->columns;
         }
 
@@ -73,6 +73,6 @@ abstract class AbstractDataTable extends DataTable
      */
     protected function filename()
     {
-        return str_plural(strtolower($this->entity_base_name())).'datatable_' . time();
+        return str_plural(strtolower($this->entity_base_name())).'datatable_'.time();
     }
 }

@@ -3,7 +3,6 @@
 namespace Yakuzan\Boiler\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use function strtolower;
 use Yakuzan\Boiler\Controllers\AbstractController;
 use Yakuzan\Boiler\Traits\EntityTrait;
 use Yakuzan\Boiler\Traits\ResponseTrait;
