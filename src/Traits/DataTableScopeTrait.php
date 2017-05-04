@@ -7,11 +7,12 @@ use Yakuzan\Boiler\DataTables\DefaultDataTableScope;
 
 trait DataTableScopeTrait
 {
-    /** @var  string */
+    /** @var string */
     protected $data_table_scope;
 
     /**
      * @param $data_table_scope
+     *
      * @return string|AbstractDataTableScope
      */
     public function data_table_scope($data_table_scope = null)

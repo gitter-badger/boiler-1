@@ -9,8 +9,9 @@ class DefaultDataTable extends AbstractDataTable
 {
     /**
      * DefautDataTable constructor.
+     *
      * @param Datatables $datatables
-     * @param Factory $viewFactory
+     * @param Factory    $viewFactory
      * @param $entity
      */
     public function __construct(Datatables $datatables, Factory $viewFactory, $entity)

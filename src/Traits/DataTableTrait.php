@@ -9,11 +9,12 @@ use Yakuzan\Boiler\DataTables\DefaultDataTable;
 
 trait DataTableTrait
 {
-    /** @var  string */
+    /** @var string */
     protected $data_table;
 
     /**
      * @param $data_table
+     *
      * @return string|AbstractDataTable
      */
     public function data_table($data_table = null)
