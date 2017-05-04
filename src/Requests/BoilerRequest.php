@@ -3,6 +3,7 @@
 namespace Yakuzan\Boiler\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use function strtolower;
 use Yakuzan\Boiler\Controllers\AbstractController;
 use Yakuzan\Boiler\Traits\EntityTrait;
 use Yakuzan\Boiler\Traits\ResponseTrait;
@@ -39,6 +40,8 @@ class BoilerRequest extends FormRequest
             return $controller->service()->entity()->{$map[$method]}($this);
         }
 
+        $this->startSession();
+
         return [];
     }
 
@@ -56,5 +59,12 @@ class BoilerRequest extends FormRequest
         }
 
         return parent::response($errors);
+    }
+
+    private function startSession()
+    {
+        if (!empty($route = $this->route()) && is_a($controller = $route->getController(), AbstractController::class)) {
+            $this->session()->put('uri', $route->uri());
+        }
     }
 }

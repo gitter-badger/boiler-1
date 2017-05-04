@@ -52,6 +52,8 @@ class BoilerServiceProvider extends ServiceProvider
         $this->app->register(\Spatie\Fractal\FractalServiceProvider::class);
         $this->app->register(\Zizaco\Entrust\EntrustServiceProvider::class);
         $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
+        $this->app->register(\Yajra\Datatables\DatatablesServiceProvider::class);
+        $this->app->register(\Yajra\Datatables\ButtonsServiceProvider::class);
     }
 
     private function registerAliases()
